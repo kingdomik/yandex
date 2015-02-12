@@ -1,5 +1,8 @@
 package ru.yandex.pogoda.wi;
 
+import static com.codeborne.selenide.Selenide.*;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 
 import ru.yandex.pogoda.wi.controls.property.WITextProperty;
@@ -9,7 +12,7 @@ import com.codeborne.selenide.SelenideElement;
 
 public class MainPage {
 
-	public static class CurrentWeather extends ElementsContainer {
+	public static class CurrentWeather {
 		
 		@FindBy(css=".current-weather__today")
 		public SelenideElement propNow;
@@ -17,7 +20,12 @@ public class MainPage {
 		@FindBy(css=".current-weather__local-time")
 		public SelenideElement propLocalTime;
 
-		public WITextProperty propLocalTime2 = new WITextProperty();
+//		public WITextProperty propLocalTime2 = new WITextProperty(null, null) {
+//			@Override
+//			public SelenideElement getElement() {
+//				return $(By.xpath("//*[text()='%s ']/span"));
+//			}			
+//		};
 		
 		@FindBy(xpath="//*[text()='Восход: ']/following::text()[1]")
 		public SelenideElement propRiseTime;
@@ -31,7 +39,7 @@ public class MainPage {
 		@FindBy(xpath="//*[text()='Ветер: ']/following::abbr[1]")
 		public SelenideElement propWindDirection;
 		
-		@FindBy(xpath="//*[text()='Влажность: ']/following::abbr[1]")
+		@FindBy(xpath="//*[text()='Влажность: ']")
 		public SelenideElement propHumidity;
 		
 		@FindBy(xpath="//*[text()='Lfdktybt: ']/following::abbr[1]")
@@ -47,6 +55,8 @@ public class MainPage {
 		public SelenideElement propWeatherTitle;
 		
 	}
+	
+	public CurrentWeather cntCurentWearther = page(CurrentWeather.class);
 	
 	@FindBy(name="request")
 	public SelenideElement inpLocation;

@@ -15,6 +15,13 @@ public enum Messages implements IMessage {
 	ERR_FAILED_PARSE_DATE("Failed format date \"%s\" (%s) %s"),
 	ERR_INVALID_URL("Invalid URL %s"),
 	
+	ERR_FAILED_READ_PROPERTIES("Failed read properties %s"),
+	ERR_PROPERTY_UNDEFINED("Property not found %s (%s)"),
+	ERR_LOCALE_NOT_FOUND("Locale not found '%s'"),
+	ERR_LOCALE_UNDEFINED("Locale is undefined"),
+	
+	ERR_FAILED_READ_LOG_CONFIG("Failed read log config %s"),
+	
 	TEST_VALUE("%s value"),
 	TEST_EXPECTED_VISIBLE("Expected visible %s"), 
 	TEST_EXPECTED_INVISIBLE("Expected invisible %s"), 
@@ -23,7 +30,10 @@ public enum Messages implements IMessage {
 	TEST_UNEXPECTED_VALUE("Unexpected %s has value \"%s\""),
 
 	TEST_CHECKED("Expected %s checked"),
-	TEST_UNCHECKED("Expected %s unchecked");
+	TEST_UNCHECKED("Expected %s unchecked"),
+	
+	LOG_SET_LOCALE("Set locale %s");
+	
 	
 	private String message;
 

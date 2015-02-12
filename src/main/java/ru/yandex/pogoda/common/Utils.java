@@ -19,7 +19,7 @@ public class Utils {
 		try {
 			return new URI(url);
 		} catch (URISyntaxException e) {
-			throw new TestException(errorMessage, url);
+			throw new FrameworkException(errorMessage, url);
 		}
 	}
 
@@ -55,7 +55,7 @@ public class Utils {
 		try {
 			return String.format(format, params);
 		} catch (Exception e) {
-			throw new TestException(ERR_FAILED_FORMAT_STRING, format, e);
+			throw new FrameworkException(ERR_FAILED_FORMAT_STRING, format, e);
 		}
 	}
 
@@ -64,7 +64,7 @@ public class Utils {
 		try {
 			return df.parse(text);
 		} catch (ParseException e) {
-			throw new TestException(ERR_FAILED_PARSE_DATE, text, format, e);
+			throw new FrameworkException(ERR_FAILED_PARSE_DATE, text, format, e);
 		}
 	}
 

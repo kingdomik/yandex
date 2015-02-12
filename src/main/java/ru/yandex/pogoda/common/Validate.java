@@ -5,6 +5,11 @@ import static ru.yandex.pogoda.common.Messages.ERR_ARGUMENT_IS_NULL;
 
 import java.util.Collection;
 
+/**
+ * This is analog of org.apache.commons.lang3.Validate class 
+ * but with embedded error messages so argument name just required
+ *
+ */
 public class Validate {
 
 	public static <T> T notNull(T argValue, String argName) {

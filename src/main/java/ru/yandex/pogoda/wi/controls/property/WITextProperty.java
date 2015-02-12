@@ -2,18 +2,16 @@ package ru.yandex.pogoda.wi.controls.property;
 
 import org.testng.Assert;
 
+import com.codeborne.selenide.SelenideElement;
+
 /**
  * Text property web object 
  *
  */
 public class WITextProperty extends WIProperty<String> {
 
-	public WITextProperty(String locator, String name) {
-		super(locator, name);
-	}
-
-	public WITextProperty(IWIRoad road, Text name) {
-		super(road, "//*[text()='" + name.getValue() + "']", name.getName());
+	public WITextProperty(SelenideElement element, String name) {
+		super(element, name);
 	}
 
 	@Override
@@ -26,10 +24,6 @@ public class WITextProperty extends WIProperty<String> {
 	 */
 	public void assertEmpty() {
 		Assert.assertEquals(getValue(), "", this + " value");
-	}
-
-	public void assertValue(Text value) {
-		super.assertValue(value.getValue());
 	}
 
 }
