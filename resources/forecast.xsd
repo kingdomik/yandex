@@ -1,0 +1,438 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://weather.yandex.ru/forecast" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="forecast">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="fact">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="station" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute type="xs:string" name="lang" use="optional"/>
+                      <xs:attribute type="xs:byte" name="distance" use="optional"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element type="xs:dateTime" name="observation_time"/>
+              <xs:element type="xs:dateTime" name="uptime"/>
+              <xs:element name="temperature">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:byte">
+                      <xs:attribute type="xs:string" name="color"/>
+                      <xs:attribute type="xs:string" name="plate"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="weather_condition">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute type="xs:string" name="code"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="image">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute type="xs:byte" name="type"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="image-v2">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute type="xs:string" name="color"/>
+                      <xs:attribute type="xs:string" name="type"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="image-v3">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute type="xs:string" name="type"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element type="xs:string" name="weather_type"/>
+              <xs:element type="xs:string" name="weather_type_short"/>
+              <xs:element type="xs:string" name="weather_type_tt"/>
+              <xs:element type="xs:string" name="weather_type_short_tt"/>
+              <xs:element type="xs:string" name="weather_type_tr"/>
+              <xs:element type="xs:string" name="weather_type_short_tr"/>
+              <xs:element type="xs:string" name="weather_type_kz"/>
+              <xs:element type="xs:string" name="weather_type_short_kz"/>
+              <xs:element type="xs:string" name="weather_type_ua"/>
+              <xs:element type="xs:string" name="weather_type_short_ua"/>
+              <xs:element type="xs:string" name="weather_type_by"/>
+              <xs:element type="xs:string" name="weather_type_short_by"/>
+              <xs:element type="xs:string" name="wind_direction"/>
+              <xs:element type="xs:float" name="wind_speed"/>
+              <xs:element type="xs:byte" name="humidity"/>
+              <xs:element name="pressure">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:short">
+                      <xs:attribute type="xs:string" name="units"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="mslp_pressure">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:short">
+                      <xs:attribute type="xs:string" name="units"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element type="xs:string" name="daytime"/>
+              <xs:element name="season">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute type="xs:string" name="type"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element type="xs:string" name="ipad_image"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="yesterday">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="station" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute type="xs:string" name="lang" use="optional"/>
+                      <xs:attribute type="xs:byte" name="distance" use="optional"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element type="xs:dateTime" name="observation_time"/>
+              <xs:element type="xs:dateTime" name="uptime"/>
+              <xs:element name="temperature">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:byte">
+                      <xs:attribute type="xs:string" name="color"/>
+                      <xs:attribute type="xs:string" name="plate"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="weather_condition">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute type="xs:string" name="code"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="image">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:byte">
+                      <xs:attribute type="xs:byte" name="type"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="image-v2">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute type="xs:string" name="color"/>
+                      <xs:attribute type="xs:string" name="type"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="image-v3">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute type="xs:string" name="type"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element type="xs:string" name="weather_type"/>
+              <xs:element type="xs:string" name="weather_type_short"/>
+              <xs:element type="xs:string" name="weather_type_tt"/>
+              <xs:element type="xs:string" name="weather_type_short_tt"/>
+              <xs:element type="xs:string" name="weather_type_tr"/>
+              <xs:element type="xs:string" name="weather_type_short_tr"/>
+              <xs:element type="xs:string" name="weather_type_kz"/>
+              <xs:element type="xs:string" name="weather_type_short_kz"/>
+              <xs:element type="xs:string" name="weather_type_ua"/>
+              <xs:element type="xs:string" name="weather_type_short_ua"/>
+              <xs:element type="xs:string" name="weather_type_by"/>
+              <xs:element type="xs:string" name="weather_type_short_by"/>
+              <xs:element type="xs:string" name="wind_direction"/>
+              <xs:element type="xs:float" name="wind_speed"/>
+              <xs:element type="xs:byte" name="humidity"/>
+              <xs:element name="pressure">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:short">
+                      <xs:attribute type="xs:string" name="units"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="mslp_pressure">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:short">
+                      <xs:attribute type="xs:string" name="units"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="season">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute type="xs:string" name="type"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element type="xs:string" name="ipad_image"/>
+            </xs:sequence>
+            <xs:attribute type="xs:int" name="id"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="informer">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="temperature" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:byte">
+                      <xs:attribute type="xs:string" name="color" use="optional"/>
+                      <xs:attribute type="xs:string" name="type" use="optional"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="day" maxOccurs="unbounded" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:string" name="sunrise"/>
+              <xs:element type="xs:string" name="sunset"/>
+              <xs:element name="moon_phase">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:byte">
+                      <xs:attribute type="xs:string" name="code" use="optional"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element type="xs:string" name="moonrise"/>
+              <xs:element type="xs:string" name="moonset"/>
+              <xs:element name="biomet" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="message" maxOccurs="unbounded" minOccurs="0">
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:string">
+                            <xs:attribute type="xs:string" name="code" use="optional"/>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute type="xs:byte" name="index" use="optional"/>
+                  <xs:attribute type="xs:byte" name="geomag" use="optional"/>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="day_part" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:choice maxOccurs="unbounded" minOccurs="0">
+                    <xs:element type="xs:byte" name="temperature_from"/>
+                    <xs:element type="xs:byte" name="temperature_to"/>
+                    <xs:element type="xs:byte" name="temperature"/>
+                    <xs:element name="temperature-data">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="avg">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:byte">
+                                  <xs:attribute type="xs:string" name="bgcolor" use="optional"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element type="xs:byte" name="from" minOccurs="0"/>
+                          <xs:element type="xs:byte" name="to" minOccurs="0"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="weather_condition">
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:string">
+                            <xs:attribute type="xs:string" name="code" use="optional"/>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="image">
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:string">
+                            <xs:attribute type="xs:byte" name="type" use="optional"/>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="image-v2">
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:string">
+                            <xs:attribute type="xs:string" name="color" use="optional"/>
+                            <xs:attribute type="xs:string" name="type" use="optional"/>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="image-v3">
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:string">
+                            <xs:attribute type="xs:string" name="type" use="optional"/>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element type="xs:string" name="weather_type"/>
+                    <xs:element type="xs:string" name="weather_type_short"/>
+                    <xs:element type="xs:string" name="weather_type_tt"/>
+                    <xs:element type="xs:string" name="weather_type_short_tt"/>
+                    <xs:element type="xs:string" name="weather_type_tr"/>
+                    <xs:element type="xs:string" name="weather_type_short_tr"/>
+                    <xs:element type="xs:string" name="weather_type_kz"/>
+                    <xs:element type="xs:string" name="weather_type_short_kz"/>
+                    <xs:element type="xs:string" name="weather_type_ua"/>
+                    <xs:element type="xs:string" name="weather_type_short_ua"/>
+                    <xs:element type="xs:string" name="weather_type_by"/>
+                    <xs:element type="xs:string" name="weather_type_short_by"/>
+                    <xs:element type="xs:string" name="wind_direction"/>
+                    <xs:element type="xs:float" name="wind_speed"/>
+                    <xs:element type="xs:byte" name="humidity"/>
+                    <xs:element name="pressure">
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:short">
+                            <xs:attribute type="xs:string" name="units" use="optional"/>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="mslp_pressure">
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:short">
+                            <xs:attribute type="xs:string" name="units" use="optional"/>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:choice>
+                  <xs:attribute type="xs:byte" name="typeid" use="optional"/>
+                  <xs:attribute type="xs:string" name="type" use="optional"/>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="hour" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:byte" name="temperature"/>
+                    <xs:element name="weather_condition">
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:string">
+                            <xs:attribute type="xs:string" name="code" use="optional"/>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="image">
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:string">
+                            <xs:attribute type="xs:byte" name="type" use="optional"/>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="image-v2">
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:string">
+                            <xs:attribute type="xs:string" name="color" use="optional"/>
+                            <xs:attribute type="xs:string" name="type" use="optional"/>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="image-v3">
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:string">
+                            <xs:attribute type="xs:string" name="type" use="optional"/>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute type="xs:byte" name="at" use="optional"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute type="xs:date" name="date" use="optional"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="country_id"/>
+      <xs:attribute type="xs:string" name="part"/>
+      <xs:attribute type="xs:anyURI" name="link"/>
+      <xs:attribute type="xs:string" name="part_id"/>
+      <xs:attribute type="xs:float" name="lat"/>
+      <xs:attribute type="xs:string" name="slug"/>
+      <xs:attribute type="xs:string" name="city"/>
+      <xs:attribute type="xs:byte" name="climate"/>
+      <xs:attribute type="xs:string" name="country"/>
+      <xs:attribute type="xs:short" name="region"/>
+      <xs:attribute type="xs:float" name="lon"/>
+      <xs:attribute type="xs:byte" name="zoom"/>
+      <xs:attribute type="xs:short" name="id"/>
+      <xs:attribute type="xs:string" name="source"/>
+      <xs:attribute type="xs:string" name="exactname"/>
+      <xs:attribute type="xs:short" name="geoid"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

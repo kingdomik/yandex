@@ -1,21 +1,24 @@
 package ru.yandex.pogoda.wi;
 
-import static com.codeborne.selenide.Selenide.page;
-
 import org.openqa.selenium.support.FindBy;
 
+import ru.yandex.pogoda.wi.controls.property.WITextProperty;
+
+import com.codeborne.selenide.ElementsContainer;
 import com.codeborne.selenide.SelenideElement;
 
 public class MainPage {
 
-	public static class CurrentWeather {
+	public static class CurrentWeather extends ElementsContainer {
 		
 		@FindBy(css=".current-weather__today")
 		public SelenideElement propNow;
 		
 		@FindBy(css=".current-weather__local-time")
 		public SelenideElement propLocalTime;
-			
+
+		public WITextProperty propLocalTime2 = new WITextProperty();
+		
 		@FindBy(xpath="//*[text()='Восход: ']/following::text()[1]")
 		public SelenideElement propRiseTime;
 		
@@ -71,10 +74,7 @@ public class MainPage {
 	public SelenideElement btnViewClimate;
 	
 	
-	public CurrentWeather conCurrent;
-	
 	public MainPage() {
-		this.conCurrent = page(CurrentWeather.class);
 	}
 	
 }
