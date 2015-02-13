@@ -9,10 +9,10 @@ import org.hamcrest.TypeSafeMatcher;
 
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 
-public class HasTextMatcher extends TypeSafeMatcher<TextBlock> {
+public class HasTextMatcher_ extends TypeSafeMatcher<TextBlock> {
     private final Matcher<String> textMatcher;
 
-    public HasTextMatcher(Matcher<String> textMatcher) {
+    public HasTextMatcher_(Matcher<String> textMatcher) {
         this.textMatcher = textMatcher;
     }
 
@@ -41,7 +41,7 @@ public class HasTextMatcher extends TypeSafeMatcher<TextBlock> {
      */
     @Factory
     public static Matcher<TextBlock> hasEnteredText(final Matcher<String> textMatcher) {
-        return new HasTextMatcher(textMatcher);
+        return new HasTextMatcher_(textMatcher);
     }
 
     /**
@@ -51,6 +51,6 @@ public class HasTextMatcher extends TypeSafeMatcher<TextBlock> {
      */
     @Factory
     public static Matcher<TextBlock> hasText(final String text) {
-        return new HasTextMatcher(is(text));
+        return new HasTextMatcher_(is(text));
     }
 }

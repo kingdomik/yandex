@@ -2,9 +2,10 @@ package ru.yandex.pogoda.common;
 
 import static ru.yandex.pogoda.common.Messages.ERR_FAILED_FORMAT_STRING;
 import static ru.yandex.pogoda.common.Messages.ERR_FAILED_PARSE_DATE;
+import static ru.yandex.pogoda.common.Messages.ERR_INVALID_URL;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,16 +16,24 @@ public class Utils {
 
 	public static final String DEFAULT_ARRAY_DELIMITER = ",";
 
-	public static URI getURI(String url, IMessage errorMessage) {
+	public static URL getUrl(String url) {
 		try {
-			return new URI(url);
-		} catch (URISyntaxException e) {
-			throw new FrameworkException(errorMessage, url);
+			return new URL(url);
+		} catch (MalformedURLException e) {
+			throw new FrameworkException(ERR_INVALID_URL, url);
 		}
 	}
+	
+	public static String formatDate(Date date, String format) {
+		return new SimpleDateFormat(format).format(date);
+	}
 
-	@SuppressWarnings({ "unchecked", "varargs" })
-	public static <T> String join(T... values) {
+	public static String byteToStringWithSign(byte value) {
+		return value == 0 ? "" + value : (value > 0 ? "+" + value : "-" + value);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static <T> String join( T... values) {
 		return joinWithDelimiter(DEFAULT_ARRAY_DELIMITER, values);
 	}
 

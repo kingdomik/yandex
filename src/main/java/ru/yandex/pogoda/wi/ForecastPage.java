@@ -4,13 +4,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 
+import ru.yandex.pogoda.data.City;
 import ru.yandex.qatools.htmlelements.annotations.Name;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 import ru.yandex.qatools.htmlelements.loader.HtmlElementLoader;
 
 import com.codeborne.selenide.SelenideElement;
 
-public class ForecastPage {
+public class ForecastPage extends AbstractPage {
 
 //	@Name("Local time")
 //	@FindBy(css = ".current-weather__today")
@@ -81,8 +82,15 @@ public class ForecastPage {
 //	@FindBy(xpath = "//*[@class='radio-button__text' and string(.)='климат']")
 //	public SelenideElement btnViewClimate;
 
+	
 	public ForecastPage(WebDriver driver) {
-		 HtmlElementLoader.populatePageObject(this, driver);
+		super(driver);
+	}
+	
+	public City getCity() {
+		String city = getUrl().getPath();
+		city = city.substring(1).toUpperCase().replace('-', '_');
+		return City.valueOf(city);
 	}
 
 }
