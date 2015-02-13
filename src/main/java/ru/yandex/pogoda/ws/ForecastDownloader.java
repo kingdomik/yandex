@@ -9,11 +9,13 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.annotation.Resources;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import ru.yandex.pogoda.common.FrameworkException;
+
 import java.util.Properties;
 
 public class ForecastDownloader {

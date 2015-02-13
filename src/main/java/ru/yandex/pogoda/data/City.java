@@ -5,6 +5,7 @@ import ru.yandex.pogoda.ws.ForecastDownloader;
 
 public enum City {
 
+	SAINT_PETERSBURG(26063),
 	MOSCOW(27612);
 	
 	private int id;
@@ -18,7 +19,7 @@ public enum City {
 		return id;
 	}
 	
-	public Forecast getData() {
+	public Forecast getForecast() {
 		if (data == null) {
 			data = ForecastDownloader.download(getId());
 		}

@@ -1,5 +1,7 @@
 package ru.yandex.pogoda.wi.locale;
 
+import ru.yandex.pogoda.common.Utils;
+
 /**
  * Text used by tests
  * 
@@ -8,6 +10,10 @@ package ru.yandex.pogoda.wi.locale;
  */
 public enum Text {
 
+	TEMPERATURE,
+	HUMIDITY,
+	OBSERVATION_TIME,
+	
 	JANUARY,
 	FEBRUARY,
 	MARCH,
@@ -54,9 +60,10 @@ public enum Text {
 	ERR_CHOOSE_CITY_FROM_LIST	
 	;
 	
-	public String getValue() {
-		return LocaleManager.getCurrent().getProperty(name());
+	public String getValue(Object... params) {
+		return Utils.format(LocaleManager.getCurrent().getProperty(name()), params);
 	}
+	
 	
 	public String getName() {
 		// Use one of available locales comfortable for QA team as property names 
