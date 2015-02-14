@@ -8,80 +8,83 @@ import org.openqa.selenium.support.FindBy;
 
 import ru.yandex.pogoda.data.City;
 import ru.yandex.qatools.htmlelements.annotations.Name;
+import ru.yandex.qatools.htmlelements.element.HtmlElement;
+import ru.yandex.qatools.htmlelements.element.Image;
 import ru.yandex.qatools.htmlelements.element.Link;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 
 public class ForecastPage extends AbstractPage {
 
-//	@Name("Local time")
-//	@FindBy(css = ".current-weather__today")
-//	@CacheLookup
-//	public TextBlock propLocalTime;
+	public static final int DAYS_COUNT = 10;
 
-	@Name("Temperature")
-	@FindBy(css = ".current-weather__thermometer_type_now")
+	public class AfterBlock extends HtmlElement {
+		
+		@Name("Часть дня")
+		@FindBy(className = "current-weather__thermometer-name")
+		public TextBlock txtName;
+		
+		@Name("Мконка состояния погоды")
+		@FindBy(tagName = "i")
+		public TextBlock imgCondition;
+		
+		@Name("Температура")
+		@FindBy(className = "current-weather__thermometer_type_after")
+		public TextBlock txtTemperature;		
+		
+	}
+	
+	@Name("Город")
+	@FindBy(className = "navigation-city")
+	public TextBlock txtCity;
+	
+	@Name("Текущее время")
+	@FindBy(className = "current-weather__today")
+	@CacheLookup
+	public TextBlock txtLocalTime;
+
+	@Name("Текущая температура")
+	@FindBy(className = "current-weather__thermometer_type_now")
 	public TextBlock txtTemperature;
 
-//	// public WITextProperty propLocalTime2 = new WITextProperty(null, null) {
-//	// @Override
-//	// public SelenideElement getElement() {
-//	// return $(By.xpath("//*[text()='%s ']/span"));
-//	// }
-//	// };
-//
-//	@FindBy(xpath = "//*[text()='Восход: ']/following::text()[1]")
-//	public SelenideElement propRiseTime;
-//
-//	@FindBy(xpath = "//*[text()='Закат: ']/following::text()[1]")
-//	public SelenideElement propSunsetTime;
-//
-//	@FindBy(xpath = "//*[text()='Ветер: ']/following::text()[1]")
-//	public SelenideElement propWindSpeed;
-//
-//	@FindBy(xpath = "//*[text()='Ветер: ']/following::abbr[1]")
-//	public SelenideElement propWindDirection;
-//
+	@Name("Вчерашняя температура")
+	@FindBy(className = "current-weather__yesterday")
+	public TextBlock txtYesterdayTemperature;
+
+	@Name("Иконка текущей погоды")
+	@FindBy(css = ".current-weather__col_type_now i")
+	public Image imgCondition;
+
+	@Name("Текущеая погода")
+	@FindBy(className = "current-weather__comment")
+	public TextBlock txtCondition;
+
+	@Name("Дальнейшая погода")
+	@FindBy(className = "current-weather__col_type_after")
+	public List<AfterBlock> lstAfter;
+	
+	@Name("Восход/Закат")
+	@FindBy(className = "current-weather__info-row")
+	public TextBlock txtSunriseSunset;
+
+	@Name("Ветер")
+	@FindBy(className = "current-weather__info-row_type_wind")
+	public TextBlock txtWind;
+
+	@Name("Направление ветера")
+	@FindBy(css = ".current-weather__info-row_type_wind i")
+	public Image imgWindDirection;
+	
 	@Name("Влажность")
-	@FindBy(xpath = "//*[text()='Влажность: ']/..")
+	@FindBy(css = ".current-weather__info-row:nth-child(3)")
 	public TextBlock txtHumidity;
-
-//	@FindBy(xpath = "//*[text()='Lfdktybt: ']/following::abbr[1]")
-//	public SelenideElement propPressure;
-//
-	@FindBy(xpath = "//*[starts-with(.,'Данные на ')]")
-	@CacheLookup
+	
+	@Name("Давление")
+	@FindBy(css = ".current-weather__info-row:nth-child(4)")
+	public TextBlock txtPressure;
+	
+	@Name("Актуальность данных")
+	@FindBy(css = ".current-weather__info-row:nth-child(5)")
 	public TextBlock txtObservationTime;
-
-//	@FindBy(xpath = "//*[starts-with(.,'Вчера в это время ')]")
-//	public SelenideElement propYesterdayTemperature;
-//
-//	@FindBy(className = "current-weather__comment")
-//	public SelenideElement propWeatherTitle;
-//
-//	@FindBy(name = "request")
-//	public SelenideElement inpLocation;
-//
-//	@FindBy(css = "button[type='Найти']")
-//	public SelenideElement btnSearch;
-//
-//	@FindBy(css = "button[title='Войти']")
-//	public SelenideElement btnLogin;
-//
-//	@FindBy(css = "button containsspan[title='другой город']")
-//	public SelenideElement btnSelectCity;
-//
-//	@FindBy(css = "h1.title")
-//	public SelenideElement propCity;
-//
-//	@FindBy(xpath = "//*[@class='radio-button__text' and string(.)='кратко']")
-//	public SelenideElement btnViewBrief;
-//
-//	@FindBy(xpath = "//*[@class='radio-button__text' and string(.)='подробно']")
-//	public SelenideElement btnViewDetails;
-//
-//	@FindBy(xpath = "//*[@class='radio-button__text' and string(.)='климат']")
-//	public SelenideElement btnViewClimate;
-
 	
 	@FindBy(css = "[role=tab]:nth-child(1)")
 	public Link tabBrief;
@@ -91,8 +94,6 @@ public class ForecastPage extends AbstractPage {
 	
 	@FindBy(css = "[role=tab]:nth-child(3)")
 	public Link tabClimate;
-
-	public static final int DAYS_COUNT = 9;
 
 	public ForecastPage(WebDriver driver) {
 		super(driver);

@@ -62,8 +62,6 @@ public class CityTest {
 	List<Forecast.Day> wsDays;
 	City city; 
 	
-//	DateTimeFormat df = DateTimeFormat.forPattern("dd-MMM-yy");
-	
 	public CityTest(City city) {
 		this.city = city;
 	}
@@ -117,6 +115,8 @@ public class CityTest {
 		String temperature = TEMPERATURE_CELSIUS.getValue(Utils.byteToStringWithSign(wsFact.getTemperature().getValue()));
 		String humidity = HUMIDITY.getValue(wsFact.getHumidity());
 		
+//		assertElement(page.txtCity, hasText(observation));
+		assertElement(page.txtLocalTime, hasText(observation));
 		assertElement(page.txtObservationTime, hasText(observation));
 		assertElement(page.txtTemperature, hasText(temperature));
 		assertElement(page.txtHumidity, hasText(humidity));
@@ -127,12 +127,12 @@ public class CityTest {
 		BriefForecastBlock pagBrief = new BriefForecastBlock(driver);
 		
 		// Web service delivers data for 10 days where 1 today and 9 next days
-		assertThat(wsDays.size(), equalTo(ForecastPage.DAYS_COUNT + 1));
+		assertThat(wsDays.size(), equalTo(ForecastPage.DAYS_COUNT));
 
 		LocalDate date = LocalDate.now();
 		int gaps = 0;
 		
-		for(int i = 0; i < ForecastPage.DAYS_COUNT; i++) {
+		for(int i = 0; i < ForecastPage.DAYS_COUNT - 1; i++) {
 			// Skip today data
 			date = date.plusDays(1);
 			Forecast.Day wsDay = wsDays.get(i + 1);
@@ -191,11 +191,11 @@ public class CityTest {
 		DetailedForecastBlock pagDetailed = new DetailedForecastBlock(driver);
 		
 		// Web service delivers data for 10 days where 1 today and 9 next days
-		assertThat(wsDays.size(), equalTo(ForecastPage.DAYS_COUNT + 1));
+		assertThat(wsDays.size(), equalTo(ForecastPage.DAYS_COUNT));
 
 		// FIXME set DAYS_COUNT to 10
-		assertThat(pagDetailed.daysDates.size(), equalTo(ForecastPage.DAYS_COUNT + 1));
-		assertThat(pagDetailed.daysForecast.size(), equalTo(ForecastPage.DAYS_COUNT + 1));
+		assertThat(pagDetailed.daysDates.size(), equalTo(ForecastPage.DAYS_COUNT));
+		assertThat(pagDetailed.daysForecast.size(), equalTo(ForecastPage.DAYS_COUNT));
 		
 		LocalDate date = LocalDate.now();
 		// FIXME check daysDates size
