@@ -28,7 +28,9 @@ public enum Text {
 	GEOMAGNETIC,	
 	SOLAR_MINOR,
 	
+	TODAY,
 	TOMORROW,
+	
 	MONDAY,
 	TUESDAY,
 	WEDNESDAY,

@@ -168,7 +168,7 @@ public class CityTest {
 			
 			DayOfWeekForecats day = pagBrief.days.get(i + gaps);
 			
-			if (i > 0 & dow == 1) {
+			if (i > 0 & i < 7 & dow == 1) {
 				assertTrue("Expected gap between weeks", day.isGap());
 				day = pagBrief.days.get(i + ++gaps);
 			} else {
