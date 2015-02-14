@@ -8,6 +8,8 @@ public enum Messages implements IMessage {
 	ERR_ARGUMENT_IS_NULL("Argument %s must not be null"),
 	ERR_ARGUMENT_IS_EMPTY("Argument %s must not be empty"),
 	ERR_ARGUMENT_NO_SIZE("Argument %s has no size"),
+	ERR_ARGUMENT_IS_SMALL("Argument %s must not bigger than %s"),
+	ERR_ARGUMENT_IS_BIG("Argument %s must not less than %s"),
 
 	ERR_FAILED_PARSE_XML("Failed parse XML %s"),
 	ERR_FAILED_READ_URL("Failed read URL %s"),

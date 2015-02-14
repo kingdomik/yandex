@@ -1,5 +1,6 @@
 package ru.yandex.pogoda.data;
 
+import ru.yandex.pogoda.common.Validate;
 import ru.yandex.pogoda.wi.locale.Text;
 
 public enum DaysOfWeek {
@@ -20,7 +21,9 @@ public enum DaysOfWeek {
 	}
 	
 	public static DaysOfWeek get(int id) {
-		return values()[id];
+		Validate.biggerOrEqual(id, 1, "day of week id");
+		Validate.smallerOrEqual(id, 7, "day of week id");
+		return values()[id - 1];
 	};
 	
 }

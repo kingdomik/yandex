@@ -1,15 +1,15 @@
 package ru.yandex.pogoda.wi;
 
+import java.util.List;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 
 import ru.yandex.pogoda.data.City;
 import ru.yandex.qatools.htmlelements.annotations.Name;
+import ru.yandex.qatools.htmlelements.element.Link;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
-import ru.yandex.qatools.htmlelements.loader.HtmlElementLoader;
-
-import com.codeborne.selenide.SelenideElement;
 
 public class ForecastPage extends AbstractPage {
 
@@ -83,8 +83,20 @@ public class ForecastPage extends AbstractPage {
 //	public SelenideElement btnViewClimate;
 
 	
+	@FindBy(css = "[role=tab]:nth-child(1)")
+	public Link tabBrief;
+	
+	@FindBy(css = "[role=tab]:nth-child(2)")
+	public Link tabDetailed;
+	
+	@FindBy(css = "[role=tab]:nth-child(3)")
+	public Link tabClimate;
+
+	public static final int DAYS_COUNT = 9;
+
 	public ForecastPage(WebDriver driver) {
 		super(driver);
+		//FIXME test tab names
 	}
 	
 	public City getCity() {

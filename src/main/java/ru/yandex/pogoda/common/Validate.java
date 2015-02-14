@@ -1,6 +1,6 @@
 package ru.yandex.pogoda.common;
 
-import static ru.yandex.pogoda.common.Messages.ERR_ARGUMENT_IS_EMPTY;
+import static ru.yandex.pogoda.common.Messages.*;
 import static ru.yandex.pogoda.common.Messages.ERR_ARGUMENT_IS_NULL;
 
 import java.util.Collection;
@@ -33,6 +33,22 @@ public class Validate {
 		if (0 == argValue.length) {
 			throw new IllegalArgumentException(
 			        ERR_ARGUMENT_IS_EMPTY.getValue(argName));
+		}
+		return argValue;
+	}
+	
+	public static <T extends Comparable<T>> T biggerOrEqual(T argValue, T value, String argName) {
+		if (argValue.compareTo(value) == -1) {
+			throw new IllegalArgumentException(
+			        ERR_ARGUMENT_IS_SMALL.getValue(argName));
+		}
+		return argValue;
+	}
+
+	public static <T extends Comparable<T>> T smallerOrEqual(T argValue, T value, String argName) {
+		if (argValue.compareTo(value) == 1) {
+			throw new IllegalArgumentException(
+			        ERR_ARGUMENT_IS_SMALL.getValue(argName));
 		}
 		return argValue;
 	}

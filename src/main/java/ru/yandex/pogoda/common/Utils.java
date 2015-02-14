@@ -7,8 +7,11 @@ import static ru.yandex.pogoda.common.Messages.ERR_INVALID_URL;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Date;
 
@@ -28,8 +31,17 @@ public class Utils {
 		return new SimpleDateFormat(format).format(date);
 	}
 
+	public static String formatDate(LocalDate date, String format) {
+		return date.format(DateTimeFormatter.ofPattern(format));
+	}
+
+	public static String formatFloat(float value, String format) {
+		return new DecimalFormat(format).format(value);
+	}
+
 	public static String byteToStringWithSign(byte value) {
-		return value == 0 ? "" + value : (value > 0 ? "+" + value : "-" + value);
+		// Trick: Need long minus
+		return value == 0 ? "" + value : (value > 0 ? "+" + value : "−" + (-value));
 	}
 	
 	@SuppressWarnings("unchecked")

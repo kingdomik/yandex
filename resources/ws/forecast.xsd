@@ -20,7 +20,7 @@
               <xs:element name="temperature">
                 <xs:complexType>
                   <xs:simpleContent>
-                    <xs:extension base="xs:string">
+                    <xs:extension base="xs:byte">
                       <xs:attribute type="xs:string" name="color"/>
                       <xs:attribute type="xs:string" name="plate"/>
                     </xs:extension>
@@ -271,7 +271,7 @@
               </xs:element>
               <xs:element name="day_part" maxOccurs="unbounded" minOccurs="0">
                 <xs:complexType>
-                  <xs:choice maxOccurs="unbounded" minOccurs="0">
+                  <xs:sequence>
                     <xs:element type="xs:byte" name="temperature_from"/>
                     <xs:element type="xs:byte" name="temperature_to"/>
                     <xs:element type="xs:byte" name="temperature"/>
@@ -362,7 +362,7 @@
                         </xs:simpleContent>
                       </xs:complexType>
                     </xs:element>
-                  </xs:choice>
+                  </xs:sequence>
                   <xs:attribute type="xs:byte" name="typeid" use="optional"/>
                   <xs:attribute type="xs:string" name="type" use="optional"/>
                 </xs:complexType>

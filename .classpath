@@ -49,6 +49,6 @@
 	<classpathentry kind="lib" path="lib/htmlelements-java-1.13.jar" sourcepath="/htmlelements-1.13/htmlelements-java/src/main/java"/>
 	<classpathentry kind="lib" path="lib/htmlelements-matchers-1.13.jar"/>
 	<classpathentry kind="lib" path="lib/apache-commons-lang.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/java-8-oracle"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_31"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
