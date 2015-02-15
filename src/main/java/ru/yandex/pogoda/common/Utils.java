@@ -11,9 +11,12 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Date;
+
+import javax.xml.datatype.XMLGregorianCalendar;
 
 public class Utils {
 
@@ -33,6 +36,14 @@ public class Utils {
 
 	public static String formatDate(LocalDate date, String format) {
 		return date.format(DateTimeFormatter.ofPattern(format));
+	}
+
+	public static String formatDate(LocalTime time, String format) {
+		return time.format(DateTimeFormatter.ofPattern(format));
+	}
+
+	public static String formatDate(XMLGregorianCalendar date, String format) {
+		return new SimpleDateFormat(format).format(date.toGregorianCalendar().getTime());
 	}
 
 	public static String formatFloat(float value, String format) {

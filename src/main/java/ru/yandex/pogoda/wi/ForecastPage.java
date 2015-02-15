@@ -8,6 +8,7 @@ import org.openqa.selenium.support.FindBy;
 
 import ru.yandex.pogoda.data.City;
 import ru.yandex.qatools.htmlelements.annotations.Name;
+import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.Image;
 import ru.yandex.qatools.htmlelements.element.Link;
@@ -34,11 +35,11 @@ public class ForecastPage extends AbstractPage {
 	}
 	
 	@Name("Город")
-	@FindBy(className = "navigation-city")
-	public TextBlock txtCity;
+	@FindBy(css = ".navigation-city h1")
+	public TextBlock txtLocation;
 	
 	@Name("Текущее время")
-	@FindBy(className = "current-weather__today")
+	@FindBy(css = ".current-weather__today span")
 	@CacheLookup
 	public TextBlock txtLocalTime;
 
@@ -95,6 +96,9 @@ public class ForecastPage extends AbstractPage {
 	@FindBy(css = "[role=tab]:nth-child(3)")
 	public Link tabClimate;
 
+	@FindBy(css = "navigation-city__info button")
+	public Button btnOthwerCity;
+		
 	public ForecastPage(WebDriver driver) {
 		super(driver);
 		//FIXME test tab names

@@ -41,14 +41,14 @@ public class BriefForecastBlock extends AbstractPage {
 		@FindBy(className="forecast-brief__item-temp-night")
 		public TextBlock txtNightTemperature;
 
-		public boolean isGap() {
-			return $(this).has(cssClass("forecast-brief__item_gap"));
-		}
+//		public boolean isGap() {
+//			return $(this).has(cssClass("forecast-brief__item_gap"));
+//		}
 
 	}
 
 	@Name("Прогно по дням")
-	@FindBy(css=".forecast-brief__item")
+	@FindBy(css=".forecast-brief__item:not(.forecast-brief__item_gap)")
 	public List<DayOfWeekForecats> days;
 	
 	public BriefForecastBlock(WebDriver driver) {

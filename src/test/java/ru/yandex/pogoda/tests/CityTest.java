@@ -1,5 +1,6 @@
 package ru.yandex.pogoda.tests;
 
+import static ru.yandex.pogoda.common.Matchers.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
@@ -12,6 +13,9 @@ import static ru.yandex.qatools.htmlelements.matchers.common.HasClassMatcher.*;
 import static ru.yandex.qatools.htmlelements.matchers.common.IsElementDisplayedMatcher.isDisplayed;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 
@@ -107,22 +111,42 @@ public class CityTest {
 					Utils.byteToStringWithSign(dayPart.getTemperatureTo()));
 	}
 	
-	@Test
+//	@Test
 	public void testFact() {		
 		Forecast.Fact wsFact = wsForecast.getFact();
 		
-		String observation = Utils.formatDate(wsFact.getObservationTime().toGregorianCalendar().getTime(), OBSERVATION_TIME.getValue());
+		String location = LOCATION.getValue(city.getGenetive());
+//		String localTime = Utils.formatDate(LocalTime.now(), LOCAL_TIME.getValue());
 		String temperature = TEMPERATURE_CELSIUS.getValue(Utils.byteToStringWithSign(wsFact.getTemperature().getValue()));
-		String humidity = HUMIDITY.getValue(wsFact.getHumidity());
+		String condition = wsFact.getWeatherType();
+		String iconUrl = String.format(ICON_URL, wsFact.getImageV3().getValue());
+		String yesterday = TEMPERATURE_YESTERDAY.getValue(Utils.byteToStringWithSign(wsForecast.getYesterday().getTemperature().getValue()));
+		String sunriseAndSunset = SUNRISE_SUNSET.getValue(wsForecast.getDay().get(0).getSunrise(), wsForecast.getDay().get(0).getSunset());
+		String wind = WIND.getValue(
+				Utils.formatFloat(wsFact.getWindSpeed(), WIND_SPEED.getValue()),
+				WindDirection.get(wsFact.getWindDirection()).getValue());
+		String windDirectionClass = "icon_wind_" + wsFact.getWindDirection();
 		
-//		assertElement(page.txtCity, hasText(observation));
-		assertElement(page.txtLocalTime, hasText(observation));
-		assertElement(page.txtObservationTime, hasText(observation));
+		LocalTime localTime = LocalTime.parse(page.txtLocalTime.getText(), DateTimeFormatter.ofPattern("HH:mm"));
+		
+		assertElement(page.txtLocation, hasText(location));
+		assertThat(page.txtLocalTime.getWrappedElement(), isDisplayed());
+		assertThat(localTime, equalWithDelltaTo(LocalTime.now(), ChronoUnit.MINUTES, 1));
 		assertElement(page.txtTemperature, hasText(temperature));
-		assertElement(page.txtHumidity, hasText(humidity));
+		assertElement(page.txtCondition, hasText(condition));
+		assertElement(page.imgCondition, hasCss("background-image", iconUrl));
+		assertElement(page.txtYesterdayTemperature, hasText(yesterday));
+		assertElement(page.txtSunriseSunset, hasText(sunriseAndSunset));
+		assertElement(page.txtWind, hasText(wind));
+		assertElement(page.imgWindDirection, hasClass(windDirectionClass));
+		assertElement(page.txtHumidity, hasText(HUMIDITY.getValue(wsFact.getHumidity())));
+		assertElement(page.txtPressure, hasText(PRESSURE.getValue(wsFact.getPressure().getValue())));
+		assertElement(
+				page.txtObservationTime, 
+				hasText(Utils.formatDate(wsFact.getObservationTime(), OBSERVATION_TIME.getValue())));
 	}
 	
-	@Test
+//	@Test
 	public void testBrief() {
 		BriefForecastBlock pagBrief = new BriefForecastBlock(driver);
 		
@@ -130,12 +154,13 @@ public class CityTest {
 		assertThat(wsDays.size(), equalTo(ForecastPage.DAYS_COUNT));
 
 		LocalDate date = LocalDate.now();
-		int gaps = 0;
+//		int gaps = 0;
 		
 		for(int i = 0; i < ForecastPage.DAYS_COUNT - 1; i++) {
 			// Skip today data
 			date = date.plusDays(1);
 			Forecast.Day wsDay = wsDays.get(i + 1);
+			DayOfWeekForecats day = pagBrief.days.get(i);
 			
 			int dow = date.getDayOfWeek().getValue();
 			String dayOfWeek = 
@@ -165,15 +190,6 @@ public class CityTest {
 			assertThat(wsDay.getDate().toString(), equalTo(date.toString()));
 			assertThat(wsDayPart.getType(), equalTo("day"));
 			assertThat(wsNightPart.getType(), equalTo("night"));
-			
-			DayOfWeekForecats day = pagBrief.days.get(i + gaps);
-			
-			if (i > 0 & i < 7 & dow == 1) {
-				assertTrue("Expected gap between weeks", day.isGap());
-				day = pagBrief.days.get(i + ++gaps);
-			} else {
-				assertFalse("Unexpected gap before " + date, day.isGap());
-			}
 			
 			assertElement(day.txtDayOfWeek, hasText(dayOfWeek));
 			assertElement(day.txtDayOfMonth, hasText(dayOfMonth));
@@ -217,7 +233,6 @@ public class CityTest {
 			String sunrise = DETAILED_SUNRISE.getValue(wsDay.getSunrise());
 			String sunset = DETAILED_SUNSET.getValue(wsDay.getSunset());
 			String moonClass = "icon_moon_" + wsDay.getMoonPhase().getValue();
-//			String geomagnetic = GEOMAGNETIC.getValue(Geomagnetic.get(wsDay.getBiomet().getMessage().get(1).getCode()).getValue());
 
 			assertElement(wiDateDay.txtDayOfWeek, hasText(dayOfWeek));
 			assertElement(wiDateDay.txtDayOfMonth, hasText(dayOfMonth));
@@ -226,10 +241,13 @@ public class CityTest {
 			assertElement(wiForecatsDay.txtSunset, hasText(sunset));
 			assertElement(wiForecatsDay.imgMoon, hasClass(moonClass));
 			
-			if (i == 0) {
-//				assertElement(wiForecatsDay.txtGeomagnetic, hasText(geomagnetic));
+			Forecast.Day.Biomet wsBiomet = wsDay.getBiomet();
+			if (wsBiomet == null) {
+				assertThat(wiForecatsDay.txtGeomagnetic.getText().trim(), isEmptyString());
 			} else {
-//				assertThat(wiForecatsDay.txtGeomagnetic.getText(), isEmptyString());
+				assertElement(
+						wiForecatsDay.txtGeomagnetic, 
+						hasText(GEOMAGNETIC.getValue(Geomagnetic.get(wsBiomet.getMessage().get(1).getCode()).getValue())));
 			}
 			// FIXME check part size
 			for(int j = 0; j < 4; j++) {
@@ -239,7 +257,7 @@ public class CityTest {
 				String iconUrl = String.format(ICON_URL, wsDayPart.getImageV3().getValue());
 				String pressure = "" + wsDayPart.getPressure().getValue();
 				String humidity = DETAILED_HUMIDITY.getValue(wsDayPart.getHumidity());
-				String windSpeed = Utils.formatFloat(wsDayPart.getWindSpeed(), DETAILED_WIND_SPEED.getValue());
+				String windSpeed = Utils.formatFloat(wsDayPart.getWindSpeed(), WIND_SPEED.getValue());
 				String windDirection = WindDirection.get(wsDayPart.getWindDirection()).getValue();
 				String windDirectionClass = "icon_wind_" + wsDayPart.getWindDirection();
 				
