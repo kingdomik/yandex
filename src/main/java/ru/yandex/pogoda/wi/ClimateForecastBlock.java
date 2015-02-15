@@ -10,7 +10,7 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.Image;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 
-public class ClimateForecastBlock  extends AbstractPage {
+public class ClimateForecastBlock  extends BasePage {
 	
 	public static final int GRAPH_COUNT = 6;
 	

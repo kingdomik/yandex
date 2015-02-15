@@ -14,7 +14,7 @@ import ru.yandex.qatools.htmlelements.element.Image;
 import ru.yandex.qatools.htmlelements.element.Link;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 
-public class ForecastPage extends AbstractPage {
+public class ForecastPage extends BasePage {
 
 	public static final int DAYS_COUNT = 10;
 
@@ -35,11 +35,11 @@ public class ForecastPage extends AbstractPage {
 	}
 	
 	@Name("Город")
-	@FindBy(css = ".navigation-city h1")
+	@FindBy(className = "navigation-city h1")
 	public TextBlock txtLocation;
 	
 	@Name("Текущее время")
-	@FindBy(css = ".current-weather__today span")
+	@FindBy(className = "current-weather__today span")
 	@CacheLookup
 	public TextBlock txtLocalTime;
 
@@ -101,13 +101,22 @@ public class ForecastPage extends AbstractPage {
 		
 	public ForecastPage(WebDriver driver) {
 		super(driver);
-		//FIXME test tab names
 	}
 	
-	public City getCity() {
-		String city = getUrl().getPath();
-		city = city.substring(1).toUpperCase().replace('-', '_');
-		return City.valueOf(city);
+//	public City getCity() {
+//		return City.get(getUrl().getPath().substring(1));
+//	}
+	
+	public ForecastPage go(String text) {
+		inpRequest.sendKeys(text);
+		btnSubmit.click();
+		return new ForecastPage(getDriver());
+	}
+
+	public SearchResultsPage search(String text) {
+		inpRequest.sendKeys(text);
+		btnSubmit.click();
+		return new SearchResultsPage(getDriver());
 	}
 
 }

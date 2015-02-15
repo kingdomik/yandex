@@ -15,6 +15,9 @@ import static ru.yandex.pogoda.wi.locale.Text.LOCATION;
 import static ru.yandex.pogoda.wi.locale.Text.OBSERVATION_TIME;
 import static ru.yandex.pogoda.wi.locale.Text.PRESSURE;
 import static ru.yandex.pogoda.wi.locale.Text.SUNRISE_SUNSET;
+import static ru.yandex.pogoda.wi.locale.Text.TAB_BRIEF;
+import static ru.yandex.pogoda.wi.locale.Text.TAB_CLIMATE;
+import static ru.yandex.pogoda.wi.locale.Text.TAB_DETAILED;
 import static ru.yandex.pogoda.wi.locale.Text.TEMPERATURE;
 import static ru.yandex.pogoda.wi.locale.Text.TEMPERATURE_CELSIUS;
 import static ru.yandex.pogoda.wi.locale.Text.TEMPERATURE_DAY;
@@ -130,7 +133,8 @@ public class CityTest {
 	}
 	
 	@Test
-	public void testFact() {		
+	public void testFact() {
+		// FIXME test after day part
 		Forecast.Fact wsFact = wsForecast.getFact();
 		
 		String location = LOCATION.getValue(city.getGenetive());
@@ -161,6 +165,10 @@ public class CityTest {
 		assertElement(
 				page.txtObservationTime, 
 				hasText(Utils.formatDate(wsFact.getObservationTime(), OBSERVATION_TIME.getValue())));
+		
+		assertElement(page.tabBrief, hasText(TAB_BRIEF.getValue()));
+		assertElement(page.tabDetailed, hasText(TAB_DETAILED.getValue()));
+		assertElement(page.tabClimate, hasText(TAB_CLIMATE.getValue()));
 	}
 	
 	@Test
@@ -307,8 +315,7 @@ public class CityTest {
 			for(int j = 0; j < Month.values().length; j++) {
 				assertThat(blkDiagram.lstMonths.get(j).getText(), equalTo(Month.values()[j].getValue()));
 			}
-		}
-		
+		}		
 	}
 	
 }

@@ -10,6 +10,13 @@ import ru.yandex.pogoda.common.Utils;
  */
 public enum Text {
 
+	MSG_NOT_FOUND,
+	MSG_SEARCHED,
+	
+	TAB_BRIEF,
+	TAB_DETAILED,
+	TAB_CLIMATE,
+	
 	LOCATION,
 	LOCAL_TIME,
 	TEMPERATURE,
