@@ -1,15 +1,30 @@
 package ru.yandex.pogoda.tests;
 
-import static ru.yandex.pogoda.common.Matchers.*;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertFalse;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.isEmptyString;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static ru.yandex.pogoda.wi.locale.Text.*;
-import static ru.yandex.qatools.htmlelements.matchers.common.IsElementDisplayedMatcher.*;
+import static ru.yandex.pogoda.common.Matchers.equalWithDelltaTo;
+import static ru.yandex.pogoda.wi.locale.Text.DETAILED_HUMIDITY;
+import static ru.yandex.pogoda.wi.locale.Text.DETAILED_SUNRISE;
+import static ru.yandex.pogoda.wi.locale.Text.DETAILED_SUNSET;
+import static ru.yandex.pogoda.wi.locale.Text.DETAILED_TEMPERATURE;
+import static ru.yandex.pogoda.wi.locale.Text.GEOMAGNETIC;
+import static ru.yandex.pogoda.wi.locale.Text.HUMIDITY;
+import static ru.yandex.pogoda.wi.locale.Text.LOCATION;
+import static ru.yandex.pogoda.wi.locale.Text.OBSERVATION_TIME;
+import static ru.yandex.pogoda.wi.locale.Text.PRESSURE;
+import static ru.yandex.pogoda.wi.locale.Text.SUNRISE_SUNSET;
+import static ru.yandex.pogoda.wi.locale.Text.TEMPERATURE;
+import static ru.yandex.pogoda.wi.locale.Text.TEMPERATURE_CELSIUS;
+import static ru.yandex.pogoda.wi.locale.Text.TEMPERATURE_DAY;
+import static ru.yandex.pogoda.wi.locale.Text.TEMPERATURE_NIGHT;
+import static ru.yandex.pogoda.wi.locale.Text.TEMPERATURE_YESTERDAY;
+import static ru.yandex.pogoda.wi.locale.Text.WIND;
+import static ru.yandex.pogoda.wi.locale.Text.WIND_SPEED;
+import static ru.yandex.qatools.htmlelements.matchers.common.HasClassMatcher.hasClass;
 import static ru.yandex.qatools.htmlelements.matchers.common.HasCssMatcher.hasCss;
 import static ru.yandex.qatools.htmlelements.matchers.common.HasTextMatcher.hasText;
-import static ru.yandex.qatools.htmlelements.matchers.common.HasClassMatcher.*;
 import static ru.yandex.qatools.htmlelements.matchers.common.IsElementDisplayedMatcher.isDisplayed;
 
 import java.time.LocalDate;
@@ -33,10 +48,13 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import ru.yandex.pogoda.common.Utils;
 import ru.yandex.pogoda.data.City;
 import ru.yandex.pogoda.data.DaysOfWeek;
+import ru.yandex.pogoda.data.Diagram;
 import ru.yandex.pogoda.data.Geomagnetic;
+import ru.yandex.pogoda.data.Month;
 import ru.yandex.pogoda.data.WindDirection;
 import ru.yandex.pogoda.wi.BriefForecastBlock;
 import ru.yandex.pogoda.wi.BriefForecastBlock.DayOfWeekForecats;
+import ru.yandex.pogoda.wi.ClimateForecastBlock;
 import ru.yandex.pogoda.wi.DetailedForecastBlock;
 import ru.yandex.pogoda.wi.DetailedForecastBlock.DateDayBlock;
 import ru.yandex.pogoda.wi.DetailedForecastBlock.DayPartBlock;
@@ -111,12 +129,11 @@ public class CityTest {
 					Utils.byteToStringWithSign(dayPart.getTemperatureTo()));
 	}
 	
-//	@Test
+	@Test
 	public void testFact() {		
 		Forecast.Fact wsFact = wsForecast.getFact();
 		
 		String location = LOCATION.getValue(city.getGenetive());
-//		String localTime = Utils.formatDate(LocalTime.now(), LOCAL_TIME.getValue());
 		String temperature = TEMPERATURE_CELSIUS.getValue(Utils.byteToStringWithSign(wsFact.getTemperature().getValue()));
 		String condition = wsFact.getWeatherType();
 		String iconUrl = String.format(ICON_URL, wsFact.getImageV3().getValue());
@@ -146,7 +163,7 @@ public class CityTest {
 				hasText(Utils.formatDate(wsFact.getObservationTime(), OBSERVATION_TIME.getValue())));
 	}
 	
-//	@Test
+	@Test
 	public void testBrief() {
 		BriefForecastBlock pagBrief = new BriefForecastBlock(driver);
 		
@@ -154,7 +171,6 @@ public class CityTest {
 		assertThat(wsDays.size(), equalTo(ForecastPage.DAYS_COUNT));
 
 		LocalDate date = LocalDate.now();
-//		int gaps = 0;
 		
 		for(int i = 0; i < ForecastPage.DAYS_COUNT - 1; i++) {
 			// Skip today data
@@ -273,6 +289,26 @@ public class CityTest {
 			date = date.plusDays(1);
 		}
 				
+	}
+	
+	@Test
+	public void testClimate() {
+		page.tabClimate.click();
+		ClimateForecastBlock pagClimate = new ClimateForecastBlock(driver);
+		
+		assertThat(pagClimate.lstGraphs.size(), equalTo(ClimateForecastBlock.GRAPH_COUNT));
+		
+		for(int i = 0; i < ClimateForecastBlock.GRAPH_COUNT; i++) {
+			Diagram diagram = Diagram.values()[i];
+			ClimateForecastBlock.Diagram blkDiagram = pagClimate.lstGraphs.get(i);
+			assertThat(blkDiagram.txtTitle.getText(), equalTo(diagram.getTitle()));
+			assertThat(blkDiagram.imgGraph.getSource(), equalTo(diagram.getUrl(wsForecast.getGeoid()).toString()));
+			
+			for(int j = 0; j < Month.values().length; j++) {
+				assertThat(blkDiagram.lstMonths.get(j).getText(), equalTo(Month.values()[j].getValue()));
+			}
+		}
+		
 	}
 	
 }

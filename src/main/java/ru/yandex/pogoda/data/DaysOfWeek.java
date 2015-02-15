@@ -13,9 +13,6 @@ public enum DaysOfWeek {
 	SATURDAY,
 	SUNDAY;	
 
-	DaysOfWeek() {
-	}
-	
 	public String getValue() {
 		return Text.valueOf(name()).getValue();
 	}

@@ -17,7 +17,7 @@ public enum WindDirection {
 	}
 	
 	public String getValue() {
-		return Text.valueOf("WIND_" + name()).getValue();
+		return Text.valueOf(WindDirection.class.getSimpleName().toUpperCase() + "_" + name()).getValue();
 	}
 	
 	public static WindDirection get(String name) {

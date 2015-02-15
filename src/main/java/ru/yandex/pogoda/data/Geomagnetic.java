@@ -6,11 +6,8 @@ public enum Geomagnetic {
 
 	SOLAR_MINOR;
 
-	Geomagnetic() {
-	}
-	
 	public String getValue() {
-		return Text.valueOf(name()).getValue();
+		return Text.valueOf(Geomagnetic.class.getSimpleName().toUpperCase() + "_" + name()).getValue();
 	}
 	
 	public static Geomagnetic get(String name) {

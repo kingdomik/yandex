@@ -2,9 +2,6 @@ package ru.yandex.pogoda.wi;
 
 import java.util.List;
 
-import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.*;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
@@ -40,10 +37,6 @@ public class BriefForecastBlock extends AbstractPage {
 		@Name("Температура ночью")
 		@FindBy(className="forecast-brief__item-temp-night")
 		public TextBlock txtNightTemperature;
-
-//		public boolean isGap() {
-//			return $(this).has(cssClass("forecast-brief__item_gap"));
-//		}
 
 	}
 

@@ -9,8 +9,7 @@ import ru.yandex.pogoda.ws.ForecastDownloader;
 public enum City {
 
 	SAINT_PETERSBURG(26063, "Санкт-Петербурге"),
-	MOSCOW(27612, "Москве"),
-	SUNNYVALE(1, "");
+	MOSCOW(27612, "Москве");
 	
 	private int id;
 	private String genetive;
