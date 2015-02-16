@@ -1,6 +1,6 @@
 package ru.yandex.pogoda.data;
 
-import ru.yandex.pogoda.common.Validate;
+import ru.yandex.common.Validate;
 import ru.yandex.pogoda.wi.lang.LocalizedText;
 
 public enum Month {
@@ -27,9 +27,9 @@ public enum Month {
 	}
 	
 	public static Month get(int index) {
-		Validate.biggerOrEqual(index, 0, "month index");
-		Validate.smallerOrEqual(index, 11, "month index");
-		return values()[index];
+		Validate.biggerOrEqual(index, 1, "month index");
+		Validate.smallerOrEqual(index, 12, "month index");
+		return values()[index - 1];
 	}
 
 }

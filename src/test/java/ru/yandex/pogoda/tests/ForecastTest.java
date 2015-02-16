@@ -5,10 +5,15 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.isEmptyString;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
-import static ru.yandex.pogoda.common.Matchers.equalWithDelltaTo;
+import static ru.yandex.common.matchers.Matchers.equalToTrimmed;
+import static ru.yandex.common.matchers.Matchers.equalWithDelltaTo;
+import static ru.yandex.pogoda.wi.lang.LocalizedText.BRIEF_DATE;
+import static ru.yandex.pogoda.wi.lang.LocalizedText.BRIEF_TEMPERATURE_DAY;
+import static ru.yandex.pogoda.wi.lang.LocalizedText.BRIEF_TEMPERATURE_NIGHT;
+import static ru.yandex.pogoda.wi.lang.LocalizedText.DETAILED_DATE;
 import static ru.yandex.pogoda.wi.lang.LocalizedText.DETAILED_HUMIDITY;
 import static ru.yandex.pogoda.wi.lang.LocalizedText.DETAILED_SUNRISE;
-import static ru.yandex.pogoda.wi.lang.LocalizedText.*;
+import static ru.yandex.pogoda.wi.lang.LocalizedText.DETAILED_SUNSET;
 import static ru.yandex.pogoda.wi.lang.LocalizedText.DETAILED_TEMPERATURE;
 import static ru.yandex.pogoda.wi.lang.LocalizedText.GEOMAGNETIC;
 import static ru.yandex.pogoda.wi.lang.LocalizedText.HUMIDITY;
@@ -18,8 +23,6 @@ import static ru.yandex.pogoda.wi.lang.LocalizedText.PRESSURE;
 import static ru.yandex.pogoda.wi.lang.LocalizedText.SUNRISE_SUNSET;
 import static ru.yandex.pogoda.wi.lang.LocalizedText.TEMPERATURE;
 import static ru.yandex.pogoda.wi.lang.LocalizedText.TEMPERATURE_CELSIUS;
-import static ru.yandex.pogoda.wi.lang.LocalizedText.BRIEF_TEMPERATURE_DAY;
-import static ru.yandex.pogoda.wi.lang.LocalizedText.BRIEF_TEMPERATURE_NIGHT;
 import static ru.yandex.pogoda.wi.lang.LocalizedText.TEMPERATURE_YESTERDAY;
 import static ru.yandex.pogoda.wi.lang.LocalizedText.WATER_TEMPERATURE;
 import static ru.yandex.pogoda.wi.lang.LocalizedText.WIND;
@@ -47,8 +50,8 @@ import org.junit.runners.Parameterized.Parameters;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
+import ru.yandex.common.Utils;
 import ru.yandex.common.wi.Browser;
-import ru.yandex.pogoda.common.Utils;
 import ru.yandex.pogoda.data.City;
 import ru.yandex.pogoda.data.DaysOfWeek;
 import ru.yandex.pogoda.data.Diagram;
@@ -73,13 +76,15 @@ public class ForecastTest {
 	
 	static final String ICON_URL = "url(\"https://yastatic.net/weather/i/icons/svg/%s.svg\")";
 			
-	@Parameters(name = "{0}")
+	@Parameters(name = "{0}.{1}")
 	public static Iterable<Object[]> data1() {
 		return Arrays.asList(new Object[][] { 
-//			{ City.MOSCOW }, 
+			{ City.MOSCOW, Language.RU }, 
+			{ City.LOS_ANGELES, Language.RU }, 
+			{ City.SAINT_PETERSBURG, Language.RU }, 
+			{ City.MOSCOW, Language.UK }, 
 			{ City.LOS_ANGELES, Language.UK }, 
-//			{ City.SAINT_PETERSBURG }, 
-//			{ City.SUNNYVALE }, 
+			{ City.SAINT_PETERSBURG, Language.UK }, 
 		});
 	}
 	
@@ -145,9 +150,8 @@ public class ForecastTest {
 		// FIXME test after day part
 		Forecast.Fact wsFact = wsForecast.getFact();
 		
-		String location = LOCATION.getValue(city.getGenetive());
+		String location = LOCATION.getValue(city.getGenetive(lang));
 		String temperature = TEMPERATURE_CELSIUS.getValue(Utils.temperature(wsFact.getTemperature().getValue()));
-		String condition = wsFact.getWeatherType();
 		String iconUrl = String.format(ICON_URL, wsFact.getImageV3().getValue());
 		String yesterday = TEMPERATURE_YESTERDAY.getValue(Utils.temperature(wsForecast.getYesterday().getTemperature().getValue()));
 		String sunriseAndSunset = SUNRISE_SUNSET.getValue(wsForecast.getDay().get(0).getSunrise(), wsForecast.getDay().get(0).getSunset());
@@ -158,7 +162,7 @@ public class ForecastTest {
 		assertThat(page.txtLocalTime.getWrappedElement(), isDisplayed());
 		assertThat(localTime, equalWithDelltaTo(LocalTime.now(city.getTimezone()), ChronoUnit.MINUTES, 1));
 		assertElement(page.txtTemperature, hasText(temperature));
-		assertElement(page.txtCondition, hasText(condition));
+		assertElement(page.txtCondition, hasText(lang.getWeatherType(wsFact)));
 		assertElement(page.imgCondition, hasCss("background-image", iconUrl));
 		assertElement(page.txtYesterdayTemperature, hasText(yesterday));
 		if (wsFact.getWaterTemperature() != null) {
@@ -201,7 +205,7 @@ public class ForecastTest {
 		LocalTime time = LocalTime.now(city.getTimezone());
 		
 		int dayShift = 0;
-		if (time.getHour() > 9) {
+		if (time.getHour() > ForecastPage.TODAYA_TOMMOW_SWITCH) {
 			date = date.plusDays(1);
 			dayShift = 1;
 		}
@@ -243,7 +247,8 @@ public class ForecastTest {
 			assertElement(day.txtDayOfWeek, hasText(dayOfWeek));
 			assertElement(day.txtDayOfMonth, hasText(dayOfMonth));
 			assertElement(day.imgDayStateIcon, hasCss("background-image", iconUrl));
-			assertElement(day.txtDayState, hasText(wsDayPart.getWeatherType()));
+			// For unknown reason extra space can be added to weather type
+			assertElement(day.txtDayState, hasText(equalToTrimmed(lang.getWeatherType(wsDayPart))));
 			assertElement(day.txtDayTemperature, hasText(dayTemperature));
 			assertElement(day.txtNightTemperature, hasText(nightTemperature));
 			

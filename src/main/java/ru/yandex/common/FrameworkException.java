@@ -1,4 +1,4 @@
-package ru.yandex.pogoda.common;
+package ru.yandex.common;
 
 
 import java.util.Collection;

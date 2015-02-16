@@ -1,6 +1,6 @@
 package ru.yandex.pogoda.data;
 
-import ru.yandex.pogoda.common.Validate;
+import ru.yandex.common.Validate;
 import ru.yandex.pogoda.wi.lang.LocalizedText;
 
 public enum DaysOfWeek {

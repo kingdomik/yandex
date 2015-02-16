@@ -1,6 +1,6 @@
 package ru.yandex.pogoda.wi.lang;
 
-import ru.yandex.pogoda.common.Utils;
+import ru.yandex.common.Utils;
 
 /**
  * Text used by tests
@@ -9,6 +9,10 @@ import ru.yandex.pogoda.common.Utils;
  *
  */
 public enum LocalizedText {
+	
+	GENETIVE_MOSCOW,
+	GENETIVE_SAINT_PETERSBURG,
+	GENETIVE_LOS_ANGELES,
 	
 	MSG_NOT_FOUND,
 	MSG_SEARCHED,
@@ -43,6 +47,7 @@ public enum LocalizedText {
 
 	GEOMAGNETIC,	
 	GEOMAGNETIC_SOLAR_MINOR,
+	GEOMAGNETIC_SOLAR_WEAK,
 	
 	TODAY,
 	TOMORROW,

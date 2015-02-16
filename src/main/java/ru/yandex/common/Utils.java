@@ -1,4 +1,4 @@
-package ru.yandex.pogoda.common;
+package ru.yandex.common;
 
 import static ru.yandex.pogoda.common.Messages.ERR_FAILED_FORMAT_STRING;
 import static ru.yandex.pogoda.common.Messages.ERR_FAILED_PARSE_DATE;

@@ -17,7 +17,7 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-import ru.yandex.pogoda.common.Utils;
+import ru.yandex.common.Utils;
 import ru.yandex.pogoda.data.City;
 import ru.yandex.pogoda.wi.ForecastPage;
 import ru.yandex.pogoda.wi.SearchResultsPage;

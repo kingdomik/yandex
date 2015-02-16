@@ -1,5 +1,8 @@
 package ru.yandex.pogoda.common;
 
+import ru.yandex.common.IMessage;
+import ru.yandex.common.Utils;
+
 /**
  * Messages collection used for framework 
  */
@@ -24,6 +27,8 @@ public enum Messages implements IMessage {
 	
 	ERR_FAILED_READ_LOG_CONFIG("Failed read log config %s"),
 	
+	ERR_NO_LANG_WEARTHER("Failed get weather for language %s"),
+	
 	TEST_VALUE("%s value"),
 	TEST_EXPECTED_VISIBLE("Expected visible %s"), 
 	TEST_EXPECTED_INVISIBLE("Expected invisible %s"), 
@@ -35,7 +40,6 @@ public enum Messages implements IMessage {
 	TEST_UNCHECKED("Expected %s unchecked"),
 	
 	LOG_SET_LANGUAGE("Set language %s");
-	
 	
 	private String message;
 

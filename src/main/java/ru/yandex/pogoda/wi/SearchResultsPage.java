@@ -5,7 +5,6 @@ import java.util.List;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-import ru.yandex.pogoda.data.City;
 import ru.yandex.qatools.htmlelements.annotations.Name;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.Link;
@@ -39,16 +38,4 @@ public class SearchResultsPage extends SearchPage {
 		super(driver);
 	}
 	
-//	public City getCity() {
-//		String city = getUrl().getPath();
-//		city = city.substring(1).toUpperCase().replace('-', '_');
-//		return City.getByUrl(url)valueOf(city);
-//	}
-	
-//	public ForecastPage search(String text) {
-//		inpRequest.sendKeys(text);
-//		btnSubmit.click();
-//		return new ForecastPage(getDriver());
-//	}
-
 }

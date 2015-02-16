@@ -2,7 +2,7 @@ package ru.yandex.pogoda.data;
 
 import java.net.URL;
 
-import ru.yandex.pogoda.common.Utils;
+import ru.yandex.common.Utils;
 import ru.yandex.pogoda.wi.lang.LocalizedText;
 
 public enum Diagram {

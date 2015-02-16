@@ -4,7 +4,7 @@ import java.net.URL;
 
 import org.openqa.selenium.WebDriver;
 
-import ru.yandex.pogoda.common.Utils;
+import ru.yandex.common.Utils;
 import ru.yandex.qatools.htmlelements.loader.HtmlElementLoader;
 
 public class Page {

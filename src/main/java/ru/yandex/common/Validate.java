@@ -1,4 +1,4 @@
-package ru.yandex.pogoda.common;
+package ru.yandex.common;
 
 import static ru.yandex.pogoda.common.Messages.*;
 import static ru.yandex.pogoda.common.Messages.ERR_ARGUMENT_IS_NULL;

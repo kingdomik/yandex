@@ -15,32 +15,32 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
-import ru.yandex.pogoda.common.FrameworkException;
-import ru.yandex.pogoda.common.Utils;
+import ru.yandex.common.FrameworkException;
+import ru.yandex.common.Utils;
+import ru.yandex.pogoda.wi.lang.Language;
+import ru.yandex.pogoda.wi.lang.LocalizedText;
 import ru.yandex.pogoda.ws.Forecast;
 
 public enum City {
 
-	SAINT_PETERSBURG(26063, "Europe/Moscow", "Санкт-Петербурге", true),
-	MOSCOW(27612, "Europe/Moscow", "Москве", true),
-	LOS_ANGELES(72295, "America/Los_Angeles", "Лос-Анджелесе", false),
+	SAINT_PETERSBURG(26063, "Europe/Moscow", true),
+	MOSCOW(27612, "Europe/Moscow", true),
+	LOS_ANGELES(72295, "America/Los_Angeles", false),
 	
 	// Results for part search by "санкт"
-	ST_MORITZ(6790, null, null, false),
-	SANKT_ANTON_AM_ARLBERG(11110, null, null, false),
-	ST_GALLEN(0, null, null, false),
-	SANKT_POLTEN(0, null, null, false);
+	ST_MORITZ(6790, null, false),
+	SANKT_ANTON_AM_ARLBERG(11110, null, false),
+	ST_GALLEN(0, null, false),
+	SANKT_POLTEN(0, null, false);
 	
 	private int id;
 	private ZoneId timeZone;
-	private String genetive;
 	private boolean hasClimate;
 	private Forecast data;
 	
-	City(int id, String timeZone, String genetive, boolean hasClimate) {
+	City(int id, String timeZone, boolean hasClimate) {
 		this.id = id;
 		this.timeZone = timeZone == null ? null : ZoneId.of(timeZone);
-		this.genetive = genetive;
 		this.hasClimate = hasClimate;
 	}
 	
@@ -56,8 +56,8 @@ public enum City {
 		return timeZone;
 	}
 	
-	public String getGenetive() {
-		return genetive;
+	public String getGenetive(Language lang) {
+		return LocalizedText.valueOf("GENETIVE_" + name()).getValue();
 	}
 	
 	public boolean hasClimate() {
@@ -71,10 +71,10 @@ public enum City {
 	public Forecast getForecast() {
 		if (data == null) {
 			String url = String.format("http://export.yandex.ru/weather-ng/forecasts/%d.xml", getId());
-		      Properties systemSettings = System.getProperties();
-		      systemSettings.put("proxySet", "true");
-		      systemSettings.put("http.proxyHost", "www-proxy.us.oracle.com");
-		      systemSettings.put("http.proxyPort", "80");
+//		      Properties systemSettings = System.getProperties();
+//		      systemSettings.put("proxySet", "true");
+//		      systemSettings.put("http.proxyHost", "www-proxy.us.oracle.com");
+//		      systemSettings.put("http.proxyPort", "80");
 			try (InputStream is = new URL(url).openStream()) {
 				JAXBContext jaxbContext = JAXBContext.newInstance(Forecast.class);
 				Unmarshaller unMarshaller = jaxbContext.createUnmarshaller();

@@ -10,9 +10,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
-import ru.yandex.pogoda.common.FrameworkException;
-import ru.yandex.pogoda.common.Loggers;
-import ru.yandex.pogoda.common.Validate;
+import ru.yandex.common.FrameworkException;
+import ru.yandex.common.Loggers;
+import ru.yandex.common.Validate;
 
 /**
  * language manager class

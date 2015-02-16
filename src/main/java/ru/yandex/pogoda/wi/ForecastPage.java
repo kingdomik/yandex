@@ -17,6 +17,8 @@ public class ForecastPage extends SearchPage {
 
 	public static final int DAYS_COUNT = 10;
 
+	public static final int TODAYA_TOMMOW_SWITCH = 9;
+	
 	public class AfterBlock extends HtmlElement {
 		
 		@Name("Часть дня")

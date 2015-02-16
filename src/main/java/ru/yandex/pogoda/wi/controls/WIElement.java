@@ -1,6 +1,6 @@
 package ru.yandex.pogoda.wi.controls;
 
-import ru.yandex.pogoda.common.Validate;
+import ru.yandex.common.Validate;
 
 import com.codeborne.selenide.SelenideElement;
 

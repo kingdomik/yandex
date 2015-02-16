@@ -4,7 +4,8 @@ import ru.yandex.pogoda.wi.lang.LocalizedText;
 
 public enum Geomagnetic {
 
-	SOLAR_MINOR;
+	SOLAR_MINOR,
+	SOLAR_WEAK;
 
 	public String getValue() {
 		return LocalizedText.valueOf(Geomagnetic.class.getSimpleName().toUpperCase() + "_" + name()).getValue();
