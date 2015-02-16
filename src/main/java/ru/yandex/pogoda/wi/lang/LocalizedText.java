@@ -1,4 +1,4 @@
-package ru.yandex.pogoda.wi.locale;
+package ru.yandex.pogoda.wi.lang;
 
 import ru.yandex.pogoda.common.Utils;
 
@@ -8,8 +8,8 @@ import ru.yandex.pogoda.common.Utils;
  * Each enum value must have corresponding entries localize property files  
  *
  */
-public enum Text {
-
+public enum LocalizedText {
+	
 	MSG_NOT_FOUND,
 	MSG_SEARCHED,
 	
@@ -21,8 +21,6 @@ public enum Text {
 	LOCAL_TIME,
 	TEMPERATURE,
 	TEMPERATURE_CELSIUS,
-	TEMPERATURE_DAY,
-	TEMPERATURE_NIGHT,
 	TEMPERATURE_YESTERDAY,
 	WATER_TEMPERATURE,
 	HUMIDITY,
@@ -33,6 +31,11 @@ public enum Text {
 	PRESSURE,
 	OBSERVATION_TIME,
 	
+	BRIEF_DATE,
+	BRIEF_TEMPERATURE_DAY,
+	BRIEF_TEMPERATURE_NIGHT,
+	
+	DETAILED_DATE,
 	DETAILED_TEMPERATURE,
 	DETAILED_HUMIDITY,
 	DETAILED_SUNRISE,
@@ -52,6 +55,19 @@ public enum Text {
 	SATURDAY,
 	SUNDAY,	
 	
+	SHORT_JANUARY,
+	SHORT_FEBRUARY,
+	SHORT_MARCH,
+	SHORT_APRIL,
+	SHORT_MAY,
+	SHORT_JUNE,
+	SHORT_JULY,
+	SHORT_AUGUST,
+	SHORT_SEPTEMBER,
+	SHORT_OCTOBER,
+	SHORT_NOVEMBER,
+	SHORT_DECEMBER,
+
 	JANUARY,
 	FEBRUARY,
 	MARCH,
@@ -82,12 +98,11 @@ public enum Text {
 	DIAGRAM_NIGHT_TEMPERATURE;
 	
 	public String getValue(Object... params) {
-		return Utils.format(LocaleManager.getCurrent().getProperty(name()), params);
+		return Utils.format(LocalizedTextManager.getCurrent().getProperty(name()), params);
 	}
-	
 	
 	public String getName() {
-		// Use one of available locales comfortable for QA team as property names 
-		return LocaleManager.getDefault().getProperty(name());
+		return LocalizedTextManager.getDefault().getProperty(name());
 	}
+	
 }
