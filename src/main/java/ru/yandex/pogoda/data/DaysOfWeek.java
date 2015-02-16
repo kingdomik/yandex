@@ -1,7 +1,7 @@
 package ru.yandex.pogoda.data;
 
 import ru.yandex.pogoda.common.Validate;
-import ru.yandex.pogoda.wi.locale.Text;
+import ru.yandex.pogoda.wi.lang.LocalizedText;
 
 public enum DaysOfWeek {
 
@@ -14,7 +14,7 @@ public enum DaysOfWeek {
 	SUNDAY;	
 
 	public String getValue() {
-		return Text.valueOf(name()).getValue();
+		return LocalizedText.valueOf(name()).getValue();
 	}
 	
 	public static DaysOfWeek get(int id) {

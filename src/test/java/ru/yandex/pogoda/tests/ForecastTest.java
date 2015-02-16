@@ -6,28 +6,25 @@ import static org.hamcrest.Matchers.isEmptyString;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static ru.yandex.pogoda.common.Matchers.equalWithDelltaTo;
-import static ru.yandex.pogoda.wi.locale.Text.DETAILED_HUMIDITY;
-import static ru.yandex.pogoda.wi.locale.Text.DETAILED_SUNRISE;
-import static ru.yandex.pogoda.wi.locale.Text.DETAILED_SUNSET;
-import static ru.yandex.pogoda.wi.locale.Text.DETAILED_TEMPERATURE;
-import static ru.yandex.pogoda.wi.locale.Text.GEOMAGNETIC;
-import static ru.yandex.pogoda.wi.locale.Text.HUMIDITY;
-import static ru.yandex.pogoda.wi.locale.Text.LOCATION;
-import static ru.yandex.pogoda.wi.locale.Text.OBSERVATION_TIME;
-import static ru.yandex.pogoda.wi.locale.Text.PRESSURE;
-import static ru.yandex.pogoda.wi.locale.Text.SUNRISE_SUNSET;
-import static ru.yandex.pogoda.wi.locale.Text.TAB_BRIEF;
-import static ru.yandex.pogoda.wi.locale.Text.TAB_CLIMATE;
-import static ru.yandex.pogoda.wi.locale.Text.TAB_DETAILED;
-import static ru.yandex.pogoda.wi.locale.Text.TEMPERATURE;
-import static ru.yandex.pogoda.wi.locale.Text.TEMPERATURE_CELSIUS;
-import static ru.yandex.pogoda.wi.locale.Text.TEMPERATURE_DAY;
-import static ru.yandex.pogoda.wi.locale.Text.TEMPERATURE_NIGHT;
-import static ru.yandex.pogoda.wi.locale.Text.TEMPERATURE_YESTERDAY;
-import static ru.yandex.pogoda.wi.locale.Text.WATER_TEMPERATURE;
-import static ru.yandex.pogoda.wi.locale.Text.WIND;
-import static ru.yandex.pogoda.wi.locale.Text.WIND_CALM;
-import static ru.yandex.pogoda.wi.locale.Text.WIND_SPEED;
+import static ru.yandex.pogoda.wi.lang.LocalizedText.DETAILED_HUMIDITY;
+import static ru.yandex.pogoda.wi.lang.LocalizedText.DETAILED_SUNRISE;
+import static ru.yandex.pogoda.wi.lang.LocalizedText.*;
+import static ru.yandex.pogoda.wi.lang.LocalizedText.DETAILED_TEMPERATURE;
+import static ru.yandex.pogoda.wi.lang.LocalizedText.GEOMAGNETIC;
+import static ru.yandex.pogoda.wi.lang.LocalizedText.HUMIDITY;
+import static ru.yandex.pogoda.wi.lang.LocalizedText.LOCATION;
+import static ru.yandex.pogoda.wi.lang.LocalizedText.OBSERVATION_TIME;
+import static ru.yandex.pogoda.wi.lang.LocalizedText.PRESSURE;
+import static ru.yandex.pogoda.wi.lang.LocalizedText.SUNRISE_SUNSET;
+import static ru.yandex.pogoda.wi.lang.LocalizedText.TEMPERATURE;
+import static ru.yandex.pogoda.wi.lang.LocalizedText.TEMPERATURE_CELSIUS;
+import static ru.yandex.pogoda.wi.lang.LocalizedText.BRIEF_TEMPERATURE_DAY;
+import static ru.yandex.pogoda.wi.lang.LocalizedText.BRIEF_TEMPERATURE_NIGHT;
+import static ru.yandex.pogoda.wi.lang.LocalizedText.TEMPERATURE_YESTERDAY;
+import static ru.yandex.pogoda.wi.lang.LocalizedText.WATER_TEMPERATURE;
+import static ru.yandex.pogoda.wi.lang.LocalizedText.WIND;
+import static ru.yandex.pogoda.wi.lang.LocalizedText.WIND_CALM;
+import static ru.yandex.pogoda.wi.lang.LocalizedText.WIND_SPEED;
 import static ru.yandex.qatools.htmlelements.matchers.common.HasClassMatcher.hasClass;
 import static ru.yandex.qatools.htmlelements.matchers.common.HasCssMatcher.hasCss;
 import static ru.yandex.qatools.htmlelements.matchers.common.HasTextMatcher.hasText;
@@ -48,10 +45,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
+import ru.yandex.common.wi.Browser;
 import ru.yandex.pogoda.common.Utils;
 import ru.yandex.pogoda.data.City;
 import ru.yandex.pogoda.data.DaysOfWeek;
@@ -67,12 +63,13 @@ import ru.yandex.pogoda.wi.DetailedForecastBlock.DateDayBlock;
 import ru.yandex.pogoda.wi.DetailedForecastBlock.DayPartBlock;
 import ru.yandex.pogoda.wi.DetailedForecastBlock.ForecastDayBlock;
 import ru.yandex.pogoda.wi.ForecastPage;
-import ru.yandex.pogoda.wi.locale.Text;
+import ru.yandex.pogoda.wi.lang.Language;
+import ru.yandex.pogoda.wi.lang.LocalizedText;
 import ru.yandex.pogoda.ws.Forecast;
 import ru.yandex.qatools.htmlelements.element.TypifiedElement;
 
 @RunWith(value = Parameterized.class)
-public class CityTest {
+public class ForecastTest {
 	
 	static final String ICON_URL = "url(\"https://yastatic.net/weather/i/icons/svg/%s.svg\")";
 			
@@ -80,33 +77,35 @@ public class CityTest {
 	public static Iterable<Object[]> data1() {
 		return Arrays.asList(new Object[][] { 
 //			{ City.MOSCOW }, 
-			{ City.LOS_ANGELES }, 
+			{ City.LOS_ANGELES, Language.UK }, 
 //			{ City.SAINT_PETERSBURG }, 
 //			{ City.SUNNYVALE }, 
 		});
 	}
 	
-	WebDriver driver = new FirefoxDriver();
+	Browser browser = new Browser();
 	ForecastPage page;
 	Forecast wsForecast;
 	List<Forecast.Day> wsDays;
 	City city; 
+	Language lang;
 	
-	public CityTest(City city) {
+	public ForecastTest(City city, Language lang) {
 		this.city = city;
+		this.lang = lang;
 	}
 	
 	@Before
 	public void setup() {
-		driver.get(city.getUrl().toString());
-		page = new ForecastPage(driver);
+		browser.setLanguage(lang);
+		page = browser.goForecast(city.getUrl().toString());
 		wsForecast = city.getForecast();
 		wsDays = wsForecast.getDay();
 	}
 	
 	@After
 	public void cleanup() {
-		driver.quit();
+		browser.close();
 	}
 	
 	void assertElement(TypifiedElement element, Matcher<WebElement> matcher) {
@@ -193,39 +192,45 @@ public class CityTest {
 	
 	@Test
 	public void testBrief() {
-		BriefForecastBlock pagBrief = new BriefForecastBlock(driver);
+		BriefForecastBlock pagBrief = page.goBriefForecastBlock();
 		
 		// Web service delivers data for 10 days where 1 today and 9 next days
 		assertThat(wsDays.size(), equalTo(ForecastPage.DAYS_COUNT));
 
 		LocalDate date = LocalDate.now(city.getTimezone());
+		LocalTime time = LocalTime.now(city.getTimezone());
+		
+		int dayShift = 0;
+		if (time.getHour() > 9) {
+			date = date.plusDays(1);
+			dayShift = 1;
+		}
 		
 		for(int i = 0; i < ForecastPage.DAYS_COUNT - 1; i++) {
-			// Skip today data
-			date = date.plusDays(1);
-			Forecast.Day wsDay = wsDays.get(i + 1);
+			Forecast.Day wsDay = wsDays.get(i + dayShift);
 			DayOfWeekForecats day = pagBrief.days.get(i);
 			
 			int dow = date.getDayOfWeek().getValue();
 			String dayOfWeek = 
 				i == 0 
-					? Text.TOMORROW.getValue() 
+					? (dayShift == 0 
+						? LocalizedText.TODAY.getValue()
+						: LocalizedText.TOMORROW.getValue())
 					: DaysOfWeek.get(dow).getValue();
-			String dayOfMonth = Utils.formatDate(
-				date, 
+			String dayOfMonth = 
 				i == 0 | dow == 1 
-					? "d MMMM"  
-					: "d");
+					? BRIEF_DATE.getValue(date.getDayOfMonth(), Month.get(date.getMonthValue()).getValue())  
+					: "" + date.getDayOfMonth();
 			Forecast.Day.DayPart wsDayPart = wsDay.getDayPart().get(1); 
 			Forecast.Day.DayPart wsNightPart = wsDay.getDayPart().get(3);
 			String dayTemperature = (
 				i == 0 
-					? TEMPERATURE_DAY 
+					? BRIEF_TEMPERATURE_DAY 
 					: TEMPERATURE
 				).getValue(getTemperature(wsDayPart, true));
 			String nightTemperature = (
 				i == 0 
-					? TEMPERATURE_NIGHT 
+					? BRIEF_TEMPERATURE_NIGHT 
 					: TEMPERATURE
 				).getValue(getTemperature(wsNightPart, false));
 			String iconUrl = String.format(ICON_URL, wsDayPart.getImageV3().getValue());
@@ -241,14 +246,15 @@ public class CityTest {
 			assertElement(day.txtDayState, hasText(wsDayPart.getWeatherType()));
 			assertElement(day.txtDayTemperature, hasText(dayTemperature));
 			assertElement(day.txtNightTemperature, hasText(nightTemperature));
+			
+			date = date.plusDays(1);			
 		}
 		
 	}
 
 	@Test
 	public void testDetailed() {
-		page.tabDetailed.click();
-		DetailedForecastBlock pagDetailed = new DetailedForecastBlock(driver);
+		DetailedForecastBlock pagDetailed = page.goDetailedForecastBlock();
 		
 		// Web service delivers data for 10 days where 1 today and 9 next days
 		assertThat(wsDays.size(), equalTo(ForecastPage.DAYS_COUNT));
@@ -273,7 +279,7 @@ public class CityTest {
 
 			int dow = date.getDayOfWeek().getValue();
 			String dayOfWeek = DaysOfWeek.get(dow).getValue();
-			String dayOfMonth = Utils.formatDate(date, "d\nMMMM");
+			String dayOfMonth = DETAILED_DATE.getValue(date.getDayOfMonth(), Month.get(date.getMonthValue()).getValue());
 			String sunrise = DETAILED_SUNRISE.getValue(wsDay.getSunrise());
 			String sunset = DETAILED_SUNSET.getValue(wsDay.getSunset());
 			String moonClass = "icon_moon_" + wsDay.getMoonPhase().getValue();
@@ -322,8 +328,7 @@ public class CityTest {
 	@Test
 	public void testClimate() {
 		if (city.hasClimate()) {
-			page.tabClimate.click();
-			ClimateForecastBlock pagClimate = new ClimateForecastBlock(driver);
+			ClimateForecastBlock pagClimate = page.goClimateForecastBlock();
 			
 			assertThat(pagClimate.lstGraphs.size(), equalTo(ClimateForecastBlock.GRAPH_COUNT));
 			
@@ -334,7 +339,7 @@ public class CityTest {
 				assertThat(blkDiagram.imgGraph.getSource(), equalTo(diagram.getUrl(wsForecast.getGeoid()).toString()));
 				
 				for(int j = 0; j < Month.values().length; j++) {
-					assertThat(blkDiagram.lstMonths.get(j).getText(), equalTo(Month.values()[j].getValue()));
+					assertThat(blkDiagram.lstMonths.get(j).getText(), equalTo(Month.values()[j].getShortValue()));
 				}
 			}		
 		} else {

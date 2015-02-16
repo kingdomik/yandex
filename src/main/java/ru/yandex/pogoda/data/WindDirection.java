@@ -1,6 +1,6 @@
 package ru.yandex.pogoda.data;
 
-import ru.yandex.pogoda.wi.locale.Text;
+import ru.yandex.pogoda.wi.lang.LocalizedText;
 
 public enum WindDirection {
 
@@ -18,7 +18,7 @@ public enum WindDirection {
 	}
 	
 	public String getValue() {
-		return Text.valueOf(WindDirection.class.getSimpleName().toUpperCase() + "_" + name()).getValue();
+		return LocalizedText.valueOf(WindDirection.class.getSimpleName().toUpperCase() + "_" + name()).getValue();
 	}
 	
 	public static WindDirection get(String name) {

@@ -11,7 +11,7 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.Link;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 
-public class SearchResultsPage extends BasePage {
+public class SearchResultsPage extends SearchPage {
 
 	public static final int DAYS_COUNT = 10;
 
@@ -39,16 +39,16 @@ public class SearchResultsPage extends BasePage {
 		super(driver);
 	}
 	
-	public City getCity() {
-		String city = getUrl().getPath();
-		city = city.substring(1).toUpperCase().replace('-', '_');
-		return City.valueOf(city);
-	}
+//	public City getCity() {
+//		String city = getUrl().getPath();
+//		city = city.substring(1).toUpperCase().replace('-', '_');
+//		return City.getByUrl(url)valueOf(city);
+//	}
 	
-	public ForecastPage search(String text) {
-		inpRequest.sendKeys(text);
-		btnSubmit.click();
-		return new ForecastPage(getDriver());
-	}
+//	public ForecastPage search(String text) {
+//		inpRequest.sendKeys(text);
+//		btnSubmit.click();
+//		return new ForecastPage(getDriver());
+//	}
 
 }

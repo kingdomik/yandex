@@ -1,13 +1,13 @@
 package ru.yandex.pogoda.data;
 
-import ru.yandex.pogoda.wi.locale.Text;
+import ru.yandex.pogoda.wi.lang.LocalizedText;
 
 public enum Geomagnetic {
 
 	SOLAR_MINOR;
 
 	public String getValue() {
-		return Text.valueOf(Geomagnetic.class.getSimpleName().toUpperCase() + "_" + name()).getValue();
+		return LocalizedText.valueOf(Geomagnetic.class.getSimpleName().toUpperCase() + "_" + name()).getValue();
 	}
 	
 	public static Geomagnetic get(String name) {

@@ -3,7 +3,7 @@ package ru.yandex.pogoda.data;
 import java.net.URL;
 
 import ru.yandex.pogoda.common.Utils;
-import ru.yandex.pogoda.wi.locale.Text;
+import ru.yandex.pogoda.wi.lang.LocalizedText;
 
 public enum Diagram {
 
@@ -21,7 +21,7 @@ public enum Diagram {
 	}
 	
 	public String getTitle() {
-		return Text.valueOf(Diagram.class.getSimpleName().toUpperCase() + "_" + name()).getValue();
+		return LocalizedText.valueOf(Diagram.class.getSimpleName().toUpperCase() + "_" + name()).getValue();
 	}
 	
 	public URL getUrl(String geoid) {

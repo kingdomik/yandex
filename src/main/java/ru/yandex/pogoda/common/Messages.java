@@ -19,8 +19,8 @@ public enum Messages implements IMessage {
 	
 	ERR_FAILED_READ_PROPERTIES("Failed read properties %s"),
 	ERR_PROPERTY_UNDEFINED("Property not found %s (%s)"),
-	ERR_LOCALE_NOT_FOUND("Locale not found '%s'"),
-	ERR_LOCALE_UNDEFINED("Locale is undefined"),
+	ERR_LANGUAGE_NOT_FOUND("Language not found '%s'"),
+	ERR_LANGUAGE_UNDEFINED("Language is undefined"),
 	
 	ERR_FAILED_READ_LOG_CONFIG("Failed read log config %s"),
 	
@@ -34,7 +34,7 @@ public enum Messages implements IMessage {
 	TEST_CHECKED("Expected %s checked"),
 	TEST_UNCHECKED("Expected %s unchecked"),
 	
-	LOG_SET_LOCALE("Set locale %s");
+	LOG_SET_LANGUAGE("Set language %s");
 	
 	
 	private String message;

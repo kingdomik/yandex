@@ -13,7 +13,7 @@ import ru.yandex.qatools.htmlelements.element.Image;
 import ru.yandex.qatools.htmlelements.element.Link;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 
-public class ForecastPage extends BasePage {
+public class ForecastPage extends SearchPage {
 
 	public static final int DAYS_COUNT = 10;
 
@@ -106,16 +106,19 @@ public class ForecastPage extends BasePage {
 		super(driver);
 	}
 	
-	public ForecastPage go(String text) {
-		inpRequest.sendKeys(text);
-		btnSubmit.click();
-		return new ForecastPage(getDriver());
+	public BriefForecastBlock goBriefForecastBlock() {
+		tabBrief.click();
+		return new BriefForecastBlock(getDriver());
 	}
-
-	public SearchResultsPage search(String text) {
-		inpRequest.sendKeys(text);
-		btnSubmit.click();
-		return new SearchResultsPage(getDriver());
+	
+	public DetailedForecastBlock goDetailedForecastBlock() {
+		tabDetailed.click();
+		return new DetailedForecastBlock(getDriver());
 	}
-
+	
+	public ClimateForecastBlock goClimateForecastBlock() {
+		tabClimate.click();
+		return new ClimateForecastBlock(getDriver());
+	}
+	
 }

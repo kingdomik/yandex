@@ -7,7 +7,7 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
-import static ru.yandex.pogoda.wi.locale.Text.MSG_SEARCHED;
+import static ru.yandex.pogoda.wi.lang.LocalizedText.MSG_SEARCHED;
 import static ru.yandex.qatools.htmlelements.matchers.common.HasTextMatcher.hasText;
 import static ru.yandex.qatools.htmlelements.matchers.common.IsElementDisplayedMatcher.isDisplayed;
 

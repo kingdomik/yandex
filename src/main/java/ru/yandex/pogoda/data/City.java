@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.ZoneId;
+import java.util.Properties;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -70,10 +71,10 @@ public enum City {
 	public Forecast getForecast() {
 		if (data == null) {
 			String url = String.format("http://export.yandex.ru/weather-ng/forecasts/%d.xml", getId());
-//		      Properties systemSettings = System.getProperties();
-//		      systemSettings.put("proxySet", "true");
-//		      systemSettings.put("http.proxyHost", "www-proxy.us.oracle.com");
-//		      systemSettings.put("http.proxyPort", "80");
+		      Properties systemSettings = System.getProperties();
+		      systemSettings.put("proxySet", "true");
+		      systemSettings.put("http.proxyHost", "www-proxy.us.oracle.com");
+		      systemSettings.put("http.proxyPort", "80");
 			try (InputStream is = new URL(url).openStream()) {
 				JAXBContext jaxbContext = JAXBContext.newInstance(Forecast.class);
 				Unmarshaller unMarshaller = jaxbContext.createUnmarshaller();
