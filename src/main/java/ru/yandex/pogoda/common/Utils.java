@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.xml.bind.DatatypeConverter;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 public class Utils {
@@ -30,8 +31,8 @@ public class Utils {
 		}
 	}
 	
-	public static String formatDate(Date date, String format) {
-		return new SimpleDateFormat(format).format(date);
+	public static String formatXmlDate(String date, String format) {
+		return new SimpleDateFormat(format).format(DatatypeConverter.parseDate(date).getTime());
 	}
 
 	public static String formatDate(LocalDate date, String format) {
@@ -50,8 +51,12 @@ public class Utils {
 		return new DecimalFormat(format).format(value);
 	}
 
-	public static String byteToStringWithSign(byte value) {
-		// Trick: Need long minus
+	public static String temperature(String text) {
+		return temperature(Byte.parseByte(text));
+	}
+	
+	public static String temperature(byte value) {
+		// WARNING: Need long minus
 		return value == 0 ? "" + value : (value > 0 ? "+" + value : "−" + (-value));
 	}
 	

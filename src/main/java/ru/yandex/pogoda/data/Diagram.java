@@ -24,8 +24,8 @@ public enum Diagram {
 		return Text.valueOf(Diagram.class.getSimpleName().toUpperCase() + "_" + name()).getValue();
 	}
 	
-	public URL getUrl(int geoid) {
-		return Utils.getUrl(Utils.format("https://yastatic.net/weather/i/climate-v2/%d/%s.png", geoid, type));
+	public URL getUrl(String geoid) {
+		return Utils.getUrl(Utils.format("https://yastatic.net/weather/i/climate-v2/%s/%s.png", geoid, type));
 	}
 
 }

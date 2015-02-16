@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.ZoneId;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -19,22 +20,27 @@ import ru.yandex.pogoda.ws.Forecast;
 
 public enum City {
 
-	SAINT_PETERSBURG(26063, "Санкт-Петербурге"),
-	MOSCOW(27612, "Москве"),
+	SAINT_PETERSBURG(26063, "Europe/Moscow", "Санкт-Петербурге", true),
+	MOSCOW(27612, "Europe/Moscow", "Москве", true),
+	LOS_ANGELES(72295, "America/Los_Angeles", "Лос-Анджелесе", false),
 	
 	// Results for part search by "санкт"
-	ST_MORITZ(6790, "Санкт-Морице"),
-	SANKT_ANTON_AM_ARLBERG(11110, "Санкт-Антон-ам-Арльберг"),
-	ST_GALLEN(0, "Санкт-Галлене"),
-	SANKT_POLTEN(0, "Санкт-Пёльтене");
+	ST_MORITZ(6790, null, null, false),
+	SANKT_ANTON_AM_ARLBERG(11110, null, null, false),
+	ST_GALLEN(0, null, null, false),
+	SANKT_POLTEN(0, null, null, false);
 	
 	private int id;
+	private ZoneId timeZone;
 	private String genetive;
+	private boolean hasClimate;
 	private Forecast data;
 	
-	City(int id, String genetive) {
+	City(int id, String timeZone, String genetive, boolean hasClimate) {
 		this.id = id;
+		this.timeZone = timeZone == null ? null : ZoneId.of(timeZone);
 		this.genetive = genetive;
+		this.hasClimate = hasClimate;
 	}
 	
 	public static City getByUrl(String url) {
@@ -45,8 +51,16 @@ public enum City {
 		return id;
 	}
 	
+	public ZoneId getTimezone() {
+		return timeZone;
+	}
+	
 	public String getGenetive() {
 		return genetive;
+	}
+	
+	public boolean hasClimate() {
+		return hasClimate;
 	}
 	
 	public String getName() {

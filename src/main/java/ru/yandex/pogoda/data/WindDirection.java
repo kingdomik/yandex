@@ -4,6 +4,7 @@ import ru.yandex.pogoda.wi.locale.Text;
 
 public enum WindDirection {
 
+	CALM,
 	N,
 	W,
 	S,

@@ -6,7 +6,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 
-import ru.yandex.pogoda.data.City;
 import ru.yandex.qatools.htmlelements.annotations.Name;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
@@ -35,11 +34,11 @@ public class ForecastPage extends BasePage {
 	}
 	
 	@Name("Город")
-	@FindBy(className = "navigation-city h1")
+	@FindBy(css = ".navigation-city h1")
 	public TextBlock txtLocation;
 	
 	@Name("Текущее время")
-	@FindBy(className = "current-weather__today span")
+	@FindBy(css = ".current-weather__today span")
 	@CacheLookup
 	public TextBlock txtLocalTime;
 
@@ -87,6 +86,10 @@ public class ForecastPage extends BasePage {
 	@FindBy(css = ".current-weather__info-row:nth-child(5)")
 	public TextBlock txtObservationTime;
 	
+	@Name("Температцра воды")
+	@FindBy(className = "current-weather__water")
+	public Button txtWaterTemperature;
+
 	@FindBy(css = "[role=tab]:nth-child(1)")
 	public Link tabBrief;
 	
@@ -96,16 +99,12 @@ public class ForecastPage extends BasePage {
 	@FindBy(css = "[role=tab]:nth-child(3)")
 	public Link tabClimate;
 
-	@FindBy(css = "navigation-city__info button")
+	@FindBy(css = ".navigation-city__info button")
 	public Button btnOthwerCity;
-		
+
 	public ForecastPage(WebDriver driver) {
 		super(driver);
 	}
-	
-//	public City getCity() {
-//		return City.get(getUrl().getPath().substring(1));
-//	}
 	
 	public ForecastPage go(String text) {
 		inpRequest.sendKeys(text);

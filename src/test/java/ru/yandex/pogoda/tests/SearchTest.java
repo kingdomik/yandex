@@ -66,10 +66,11 @@ public class SearchTest {
 		assertThat(pagResults.lstResults, not(empty()));
 		for(SearchResultsPage.Result blkResult : pagResults.lstResults) {
 			City city = City.getByUrl(blkResult.lnkCity.getReference());
-			// WARNING: Unfortunately code is uknown for some cities
+			// WARNING: Unfortunately code is unknown for some cities
 			if (city.getId() > 0) {
-				byte temperature = city.getForecast().getFact().getTemperature().getValue();
-				assertThat(blkResult.txtTemperature.getText(), equalTo(Utils.byteToStringWithSign(temperature)));
+				assertThat(
+						blkResult.txtTemperature.getText(), 
+						equalTo(Utils.temperature(city.getForecast().getFact().getTemperature().getValue())));
 			}
 			assertThat(blkResult.lnkCity.getText(), startsWith(text));
 		}
