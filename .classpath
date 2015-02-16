@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_31"/>
 	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="lib" path="lib/selenide-2.16.jar" sourcepath="/selenide-2.16/src/main/java"/>
 	<classpathentry kind="lib" path="lib/hamcrest-library-1.3.jar"/>
-	<classpathentry kind="lib" path="lib/hamcrest-core-1.3.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="lib/selenium-java-2.44.0.jar" sourcepath="/home/dkishenk/Downloads/selenium-java-2.44.0-srcs.jar"/>
 	<classpathentry kind="lib" path="lib/guava-18.0.jar"/>
 	<classpathentry kind="lib" path="lib/gson-2.3.jar"/>
@@ -49,6 +48,7 @@
 	<classpathentry kind="lib" path="lib/htmlelements-java-1.13.jar" sourcepath="/htmlelements-1.13/htmlelements-java/src/main/java"/>
 	<classpathentry kind="lib" path="lib/htmlelements-matchers-1.13.jar"/>
 	<classpathentry kind="lib" path="lib/apache-commons-lang.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_31"/>
+	<classpathentry kind="lib" path="lib/hamcrest-core-1.3.jar"/>
+	<classpathentry kind="lib" path="lib/junit-4.12.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -42,7 +42,9 @@ import java.util.List;
 
 import org.hamcrest.Matcher;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -80,20 +82,30 @@ public class ForecastTest {
 	public static Iterable<Object[]> data1() {
 		return Arrays.asList(new Object[][] { 
 			{ City.MOSCOW, Language.RU }, 
-			{ City.LOS_ANGELES, Language.RU }, 
-			{ City.SAINT_PETERSBURG, Language.RU }, 
-			{ City.MOSCOW, Language.UK }, 
-			{ City.LOS_ANGELES, Language.UK }, 
-			{ City.SAINT_PETERSBURG, Language.UK }, 
+//			{ City.LOS_ANGELES, Language.RU }, 
+//			{ City.SAINT_PETERSBURG, Language.RU }, 
+//			{ City.MOSCOW, Language.UK }, 
+//			{ City.LOS_ANGELES, Language.UK }, 
+//			{ City.SAINT_PETERSBURG, Language.UK }, 
 		});
 	}
 	
-	Browser browser = new Browser();
+	static Browser browser;
 	ForecastPage page;
 	Forecast wsForecast;
 	List<Forecast.Day> wsDays;
 	City city; 
 	Language lang;
+	
+	@BeforeClass
+	public static void openBrowser() {
+		browser = new Browser();
+	}
+	
+	@AfterClass
+	public static void closeBrowser() {
+		browser.close();
+	}
 	
 	public ForecastTest(City city, Language lang) {
 		this.city = city;
@@ -102,15 +114,13 @@ public class ForecastTest {
 	
 	@Before
 	public void setup() {
-		browser.setLanguage(lang);
 		page = browser.goForecast(city.getUrl().toString());
+		if (!page.getLanguage().equals(lang)) {
+			browser.setLanguage(lang);
+			page = browser.goForecast(city.getUrl().toString());
+		}
 		wsForecast = city.getForecast();
 		wsDays = wsForecast.getDay();
-	}
-	
-	@After
-	public void cleanup() {
-		browser.close();
 	}
 	
 	void assertElement(TypifiedElement element, Matcher<WebElement> matcher) {
