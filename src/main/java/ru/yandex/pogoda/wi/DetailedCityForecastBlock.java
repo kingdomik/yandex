@@ -10,7 +10,7 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.Image;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 
-public class DetailedForecastBlock extends ForecastPage {
+public class DetailedCityForecastBlock extends ForecastPage {
 
 	public static class DateDayBlock extends HtmlElement {
 		
@@ -96,7 +96,7 @@ public class DetailedForecastBlock extends ForecastPage {
 	@FindBy(css="dd.forecast-detailed__day-info")
 	public List<ForecastDayBlock> daysForecast;
 	
-	public DetailedForecastBlock(WebDriver driver) {
+	public DetailedCityForecastBlock(WebDriver driver) {
 	    super(driver);
     }
 

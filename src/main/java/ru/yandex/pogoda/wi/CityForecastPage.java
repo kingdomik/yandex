@@ -13,14 +13,22 @@ import ru.yandex.qatools.htmlelements.element.Image;
 import ru.yandex.qatools.htmlelements.element.Link;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 
+/**
+ * Class wraps city forecast elements
+ *
+ */
 public class CityForecastPage extends ForecastPage {
 
+	/**
+	 * String template to build weather icon URL
+	 */
 	public static final String WEATHER_ICON_URL = "url(\"https://yastatic.net/weather/i/icons/svg/%s.svg\")";
 	
+	/**
+	 * Total count of days available on the page 
+	 */
 	public static final int DAYS_COUNT = 10;
 
-	public static final int TODAYA_TOMMOW_SWITCH = 9;
-	
 	public class AfterBlock extends HtmlElement {
 		
 		@Name("Часть дня")
@@ -110,19 +118,19 @@ public class CityForecastPage extends ForecastPage {
 		super(driver);
 	}
 	
-	public BriefForecastBlock goBriefForecastBlock() {
+	public BriefCityForecastBlock goBriefForecastBlock() {
 		tabBrief.click();
-		return new BriefForecastBlock(getDriver());
+		return new BriefCityForecastBlock(getDriver());
 	}
 	
-	public DetailedForecastBlock goDetailedForecastBlock() {
+	public DetailedCityForecastBlock goDetailedForecastBlock() {
 		tabDetailed.click();
-		return new DetailedForecastBlock(getDriver());
+		return new DetailedCityForecastBlock(getDriver());
 	}
 	
-	public ClimateForecastBlock goClimateForecastBlock() {
+	public ClimateCityForecastBlock goClimateForecastBlock() {
 		tabClimate.click();
-		return new ClimateForecastBlock(getDriver());
+		return new ClimateCityForecastBlock(getDriver());
 	}
 	
 }

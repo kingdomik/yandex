@@ -10,7 +10,7 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.Image;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 
-public class ClimateForecastBlock  extends ForecastPage {
+public class ClimateCityForecastBlock  extends ForecastPage {
 	
 	public static final int GRAPH_COUNT = 6;
 	
@@ -34,7 +34,7 @@ public class ClimateForecastBlock  extends ForecastPage {
 	@FindBy(className="climate-image")
 	public List<Diagram> lstGraphs;
 	
-	public ClimateForecastBlock(WebDriver driver) {
+	public ClimateCityForecastBlock(WebDriver driver) {
 	    super(driver);
     }
 	
