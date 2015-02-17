@@ -18,6 +18,9 @@ public class Browser {
 	
 	private WebDriver driver = new FirefoxDriver(); 
 	
+	/**
+	 * Create browser
+	 */
 	public Browser() {
 		
 	}

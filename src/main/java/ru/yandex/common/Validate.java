@@ -1,11 +1,11 @@
 package ru.yandex.common;
 
-import static ru.yandex.pogoda.common.Messages.ERR_ARGUMENT_BIGGER;
-import static ru.yandex.pogoda.common.Messages.ERR_ARGUMENT_BIGGER_OR_EQUAL;
-import static ru.yandex.pogoda.common.Messages.ERR_ARGUMENT_IS_EMPTY;
-import static ru.yandex.pogoda.common.Messages.ERR_ARGUMENT_IS_NULL;
-import static ru.yandex.pogoda.common.Messages.ERR_ARGUMENT_SMALLER;
-import static ru.yandex.pogoda.common.Messages.ERR_ARGUMENT_SMALLER_OR_EQUAL;
+import static ru.yandex.pogoda.Messages.ERR_ARGUMENT_BIGGER;
+import static ru.yandex.pogoda.Messages.ERR_ARGUMENT_BIGGER_OR_EQUAL;
+import static ru.yandex.pogoda.Messages.ERR_ARGUMENT_IS_EMPTY;
+import static ru.yandex.pogoda.Messages.ERR_ARGUMENT_IS_NULL;
+import static ru.yandex.pogoda.Messages.ERR_ARGUMENT_SMALLER;
+import static ru.yandex.pogoda.Messages.ERR_ARGUMENT_SMALLER_OR_EQUAL;
 
 import java.util.Collection;
 

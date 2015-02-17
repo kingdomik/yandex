@@ -1,13 +1,12 @@
 package ru.yandex.pogoda.tests;
 
-import static ru.yandex.common.matchers.Matchers.*;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static ru.yandex.common.matchers.Matchers.containsIgnoreCase;
 import static ru.yandex.pogoda.wi.lang.LocalizedText.MSG_NOT_FOUND;
 import static ru.yandex.pogoda.wi.lang.LocalizedText.MSG_SEARCHED;
 import static ru.yandex.qatools.htmlelements.matchers.common.HasTextMatcher.hasText;
@@ -43,6 +42,7 @@ public class SearchTest {
 	@Before
 	public void setup() {
 		pagMain = browser.goForecast(CityForecastPage.URL);
+		pagMain.detectLanguage();
 	}
 	
 	/**

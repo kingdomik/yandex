@@ -1,8 +1,8 @@
 package ru.yandex.pogoda.data;
 
-import static ru.yandex.pogoda.common.Messages.ERR_FAILED_PARSE_XML;
-import static ru.yandex.pogoda.common.Messages.ERR_FAILED_READ_URL;
-import static ru.yandex.pogoda.common.Messages.ERR_INVALID_URL;
+import static ru.yandex.pogoda.Messages.ERR_FAILED_PARSE_XML;
+import static ru.yandex.pogoda.Messages.ERR_FAILED_READ_URL;
+import static ru.yandex.pogoda.Messages.ERR_INVALID_URL;
 
 import java.io.IOException;
 import java.io.InputStream;

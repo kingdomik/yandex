@@ -1,8 +1,8 @@
 package ru.yandex.common;
 
-import static ru.yandex.pogoda.common.Messages.ERR_FAILED_FORMAT_STRING;
-import static ru.yandex.pogoda.common.Messages.ERR_FAILED_PARSE_DATE;
-import static ru.yandex.pogoda.common.Messages.ERR_INVALID_URL;
+import static ru.yandex.pogoda.Messages.ERR_FAILED_FORMAT_STRING;
+import static ru.yandex.pogoda.Messages.ERR_FAILED_PARSE_DATE;
+import static ru.yandex.pogoda.Messages.ERR_INVALID_URL;
 
 import java.net.MalformedURLException;
 import java.net.URL;

@@ -1,4 +1,4 @@
-package ru.yandex.pogoda.common;
+package ru.yandex.pogoda;
 
 import ru.yandex.common.IMessage;
 import ru.yandex.common.Utils;

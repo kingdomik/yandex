@@ -1,6 +1,6 @@
 package ru.yandex.pogoda.wi.lang;
 
-import static ru.yandex.pogoda.common.Messages.ERR_NO_LANG_WEARTHER;
+import static ru.yandex.pogoda.Messages.ERR_NO_LANG_WEARTHER;
 import ru.yandex.common.FrameworkException;
 import ru.yandex.pogoda.ws.Forecast;
 

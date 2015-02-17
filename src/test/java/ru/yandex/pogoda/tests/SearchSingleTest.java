@@ -67,6 +67,7 @@ public class SearchSingleTest {
 	@Test
 	public void testSearch() {
 		pagMain = pagMain.goForecast(request);
+		pagMain.detectLanguage();
 		assertThat(
 			pagMain.getUrl(), 
 			equalTo(city.getUrl()));		

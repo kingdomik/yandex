@@ -1,6 +1,6 @@
 package ru.yandex.common;
 
-import static ru.yandex.pogoda.common.Messages.ERR_FAILED_READ_LOG_CONFIG;
+import static ru.yandex.pogoda.Messages.ERR_FAILED_READ_LOG_CONFIG;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

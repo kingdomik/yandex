@@ -1,9 +1,9 @@
 package ru.yandex.pogoda.wi.lang;
 
-import static ru.yandex.pogoda.common.Messages.ERR_FAILED_READ_PROPERTIES;
-import static ru.yandex.pogoda.common.Messages.ERR_LANGUAGE_NOT_FOUND;
-import static ru.yandex.pogoda.common.Messages.ERR_PROPERTY_UNDEFINED;
-import static ru.yandex.pogoda.common.Messages.LOG_SET_LANGUAGE;
+import static ru.yandex.pogoda.Messages.ERR_FAILED_READ_PROPERTIES;
+import static ru.yandex.pogoda.Messages.ERR_LANGUAGE_NOT_FOUND;
+import static ru.yandex.pogoda.Messages.ERR_PROPERTY_UNDEFINED;
+import static ru.yandex.pogoda.Messages.LOG_SET_LANGUAGE;
 
 import java.io.IOException;
 import java.io.InputStream;

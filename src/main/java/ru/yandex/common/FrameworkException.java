@@ -41,7 +41,8 @@ public class FrameworkException extends RuntimeException {
 		return message;
 	}
 
-	private static Object[] convert(Object[] params) {
+	@SuppressWarnings("unchecked")
+    private static Object[] convert(Object[] params) {
 		Object[] result = new Object[params.length];
 		for (int i = 0; i < params.length; i++) {
 			Object param = params[i];
