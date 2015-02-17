@@ -25,19 +25,19 @@ public enum City {
 	SAINT_PETERSBURG(
 		26063, 
 		"Europe/Moscow", 
-		Climate.RAINFALL, 
-		Climate.DAY_TEMPERATURE, 
-		Climate.NIGHT_TEMPERATURE),
+		Diagram.RAINFALL, 
+		Diagram.DAY_TEMPERATURE, 
+		Diagram.NIGHT_TEMPERATURE),
 		
 	MOSCOW(
 		27612, 
 		"Europe/Moscow", 
-		Climate.HUMIDITY, 
-		Climate.RAINFALL_DAYS,
-		Climate.RAINFALL,
-		Climate.SUN_DAYS,
-		Climate.DAY_TEMPERATURE,
-		Climate.NIGHT_TEMPERATURE),
+		Diagram.HUMIDITY, 
+		Diagram.RAINFALL_DAYS,
+		Diagram.RAINFALL,
+		Diagram.SUN_DAYS,
+		Diagram.DAY_TEMPERATURE,
+		Diagram.NIGHT_TEMPERATURE),
 		
 	LOS_ANGELES(
 		72295, 
@@ -51,10 +51,10 @@ public enum City {
 	
 	private int id;
 	private ZoneId timeZone;
-	private Climate[] climates;
+	private Diagram[] climates;
 	private Forecast data;
 	
-	City(int id, String timeZone, Climate... climates) {
+	City(int id, String timeZone, Diagram... climates) {
 		this.id = id;
 		this.timeZone = timeZone == null ? null : ZoneId.of(timeZone);
 		this.climates = climates;
@@ -76,7 +76,7 @@ public enum City {
 		return LocalizedText.valueOf("GENITIVE_" + name()).getValue();
 	}
 	
-	public Climate[] getClimates() {
+	public Diagram[] getClimates() {
 		return climates;
 	}
 	

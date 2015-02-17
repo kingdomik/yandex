@@ -5,7 +5,7 @@ import java.net.URL;
 import ru.yandex.common.Utils;
 import ru.yandex.pogoda.wi.lang.LocalizedText;
 
-public enum Climate {
+public enum Diagram {
 
 	HUMIDITY("f"),
 	RAINFALL_DAYS("n"),
@@ -16,12 +16,12 @@ public enum Climate {
 
 	private String type;
 	
-	Climate(String type) {
+	Diagram(String type) {
 		this.type = type;
 	}
 	
 	public String getTitle() {
-		return LocalizedText.valueOf(Climate.class.getSimpleName().toUpperCase() + "_" + name()).getValue();
+		return LocalizedText.valueOf(Diagram.class.getSimpleName().toUpperCase() + "_" + name()).getValue();
 	}
 	
 	public URL getUrl(String geoid) {

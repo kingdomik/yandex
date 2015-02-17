@@ -54,11 +54,11 @@ public class ForecastPage extends SearchPage {
 
 	@Name("Иконка текущей погоды")
 	@FindBy(css = ".current-weather__col_type_now i")
-	public Image imgCondition;
+	public Image imgWaether;
 
 	@Name("Текущеая погода")
 	@FindBy(className = "current-weather__comment")
-	public TextBlock txtCondition;
+	public TextBlock txtWaether;
 
 	@Name("Дальнейшая погода")
 	@FindBy(className = "current-weather__col_type_after")
