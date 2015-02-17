@@ -1,10 +1,11 @@
 package ru.yandex.pogoda.tests;
 
+import static ru.yandex.common.matchers.Matchers.*;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.startsWith;
+import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static ru.yandex.pogoda.wi.lang.LocalizedText.MSG_NOT_FOUND;
@@ -44,6 +45,10 @@ public class SearchTest {
 		pagMain = browser.goForecast(CityForecastPage.URL);
 	}
 	
+	/**
+	 * Test search results contain requested string of original language
+	 * and one of known results redirects to searched city page    
+	 */
 	@Test
 	public void testSearchPartlyMany() {
 		String text = "Санкт";
@@ -66,7 +71,7 @@ public class SearchTest {
 			}
 			assertThat(
 				blkResult.lnkCity.getText(), 
-				startsWith(text));
+				containsIgnoreCase(text));
 		}
 		
 		for(SearchResultsPage.Result blkResult : pagResults.lstResults) {
@@ -82,7 +87,11 @@ public class SearchTest {
 		
 		fail(String.format("City %s not found for search request %s", City.SAINT_PETERSBURG.getName(), text));
 	}
-	
+
+	/**
+	 * Test search results contain requested string of other language 
+	 * and one of known results redirects to searched city page    
+	 */
 	@Test
 	public void testSearchOtherLanguage() {
 		String cityEnglish = "Saint-Petersburg";
@@ -115,6 +124,9 @@ public class SearchTest {
 		fail(String.format("City %s not found for search request %s", cityRussian, cityEnglish));
 	}
 	
+	/**
+	 * Test get correct error message for unknown city name
+	 */
 	@Test
 	public void testNotfound() {
 		pagResults = pagMain.search("dummy");

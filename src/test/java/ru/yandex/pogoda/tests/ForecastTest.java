@@ -91,11 +91,12 @@ public class ForecastTest {
 	
 	static Browser browser;
 	
+	City city; 
+	Language lang;
+	
 	CityForecastPage page;
 	Forecast wsForecast;
 	List<Forecast.Day> wsDays;
-	City city; 
-	Language lang;
 	
 	@BeforeClass
 	public static void openBrowser() {
@@ -163,8 +164,11 @@ public class ForecastTest {
 					Utils.temperature(dayPart.getTemperatureTo()));
 	}
 	
+	/**
+	 * Test city current forecast  
+	 */
 	@Test
-	public void testFact() {
+	public void testCurrent() {
 		Forecast.Fact wsFact = wsForecast.getFact();
 		
 		assertDisplayed(
@@ -230,6 +234,9 @@ public class ForecastTest {
 			hasText(Utils.formatXmlDate(wsFact.getObservationTime(), OBSERVATION_TIME.getValue())));
 	}
 	
+	/**
+	 * Test city brief forecast 
+	 */
 	@Test
 	public void testBrief() {
 		assertDisplayed(
@@ -311,6 +318,9 @@ public class ForecastTest {
 		
 	}
 
+	/**
+	 * Test city detailed forecast 
+	 */
 	@Test
 	public void testDetailed() {
 		assertDisplayed(

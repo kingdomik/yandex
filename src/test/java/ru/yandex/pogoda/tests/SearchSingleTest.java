@@ -26,6 +26,7 @@ public class SearchSingleTest {
 			{ "testExacty", 		"Санкт-Петербург",		City.SAINT_PETERSBURG }, 
 			{ "testLowerCase", 		"санкт-петербург",		City.SAINT_PETERSBURG }, 
 			{ "testUpperCase", 		"САНКТ-ПЕТЕРБУРГ",		City.SAINT_PETERSBURG }, 
+			{ "testNoSymbols", 		"Санкт Петербург",		City.SAINT_PETERSBURG }, 
 			{ "testPartly", 		"петербург",			City.SAINT_PETERSBURG }, 
 			{ "testWrongLanguage",	"cfyrn-gtnth,ehu",		City.SAINT_PETERSBURG }, 
 			{ "testLangEnglish",	"Murmansk",				City.MURMANSK },
@@ -35,10 +36,10 @@ public class SearchSingleTest {
 	
 	static Browser browser;
 	
-	CityForecastPage pagMain;
-	
 	String request;
 	City city;
+
+	CityForecastPage pagMain;
 	
 	public SearchSingleTest(String testName, String request, City city) {
 		this.request = request;
@@ -60,6 +61,9 @@ public class SearchSingleTest {
 		pagMain = browser.goForecast(City.MOSCOW.getUrl());
 	}
 	
+	/**
+	 * Test mutated and incomplete search requests get correct city 
+	 */
 	@Test
 	public void testSearch() {
 		pagMain = pagMain.goForecast(request);

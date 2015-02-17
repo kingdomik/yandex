@@ -7,6 +7,10 @@ import org.hamcrest.Matcher;
 
 public class Matchers {
 
+    public static Matcher<String> containsIgnoreCase(String string) {
+        return new ContainsIgnoreCase(string);
+    }
+	
     public static Matcher<String> equalToTrimmed(String string) {
         return new IsEqualTrimmed(string);
     }
