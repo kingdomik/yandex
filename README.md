@@ -1,6 +1,5 @@
 Requirements
 ------------
-
 - Java 8 http://www.java.com/ru/
 - Ant http://ant.apache.org/
 - Firefox https://www.mozilla.org/ru/firefox
