@@ -7,7 +7,6 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
-import static ru.yandex.pogoda.common.Messages.FAIL_CITY_NOT_FOUND;
 import static ru.yandex.pogoda.wi.lang.LocalizedText.MSG_NOT_FOUND;
 import static ru.yandex.pogoda.wi.lang.LocalizedText.MSG_SEARCHED;
 import static ru.yandex.qatools.htmlelements.matchers.common.HasTextMatcher.hasText;
@@ -46,32 +45,6 @@ public class SearchTest {
 	}
 	
 	@Test
-	public void testSearchExactly() {
-		pagMain = pagMain.goForecast(City.SAINT_PETERSBURG.getName());
-		assertThat(
-			pagMain.getUrl(), 
-			equalTo(City.SAINT_PETERSBURG.getUrl()));
-		
-		pagMain = pagMain.goForecast(City.MOSCOW.getName());
-		assertThat(
-			pagMain.getUrl(), 
-			equalTo(City.MOSCOW.getUrl()));		
-	}
-	
-	@Test
-	public void testSearchPartlySingle() {
-		pagMain = pagMain.goForecast(City.MOSCOW.getName());
-		assertThat(
-			pagMain.getUrl(), 
-			equalTo(City.MOSCOW.getUrl()));		
-
-		pagMain = pagMain.goForecast("петербург");
-		assertThat(
-			pagMain.getUrl(), 
-			equalTo(City.SAINT_PETERSBURG.getUrl()));
-	}
-	
-	@Test
 	public void testSearchPartlyMany() {
 		String text = "Санкт";
 		pagResults = pagMain.search(text);
@@ -84,7 +57,7 @@ public class SearchTest {
 		
 		for(SearchResultsPage.Result blkResult : pagResults.lstResults) {
 			City city = City.getByUrl(blkResult.lnkCity.getReference());
-			// WARNING: Unfortunately code is unknown for some cities
+			// FIXME Unfortunately code is unknown for some cities
 			// so web service info is unavailable. Need extra data source to fix
 			if (city.getId() > 0) {
 				assertThat(
@@ -107,7 +80,7 @@ public class SearchTest {
 			}
 		}
 		
-		fail(FAIL_CITY_NOT_FOUND.getValue(City.SAINT_PETERSBURG.getName(), text));
+		fail(String.format("City %s not found for search request %s", City.SAINT_PETERSBURG.getName(), text));
 	}
 	
 	@Test
@@ -139,7 +112,7 @@ public class SearchTest {
 			}
 		}
 		
-		fail(FAIL_CITY_NOT_FOUND.getValue(cityRussian, cityEnglish));
+		fail(String.format("City %s not found for search request %s", cityRussian, cityEnglish));
 	}
 	
 	@Test

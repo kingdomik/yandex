@@ -45,6 +45,14 @@ public enum City {
 		Diagram.DAY_TEMPERATURE,
 		Diagram.NIGHT_TEMPERATURE),
 		
+	MURMANSK(
+			22113, 
+			"Europe/Moscow", 
+			Diagram.HUMIDITY, 
+			Diagram.RAINFALL,
+			Diagram.DAY_TEMPERATURE,
+			Diagram.NIGHT_TEMPERATURE),
+				
 	LOS_ANGELES(
 		72295, 
 		"America/Los_Angeles"),
