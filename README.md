@@ -57,34 +57,3 @@ src/main/java/
 src/test/java 				- test sources
 .classpath 					- Eclipse project staff
 .project 					- Eclipse project staff 
-
-
-
-- Поддержка нескольких языков
-- Поддержка нескольких браузеров
-- Погода меняется появляются новые данные не учтенные тестами 
-- надо чаще обновлять web service data
-TODO
-- Filter JARs
-- Направление ветра имеет два значения
-- forecast сгенерирован, но было бы хоро иметь более удобную версию
-- нуюно большее раздение между логическим и физическим уровнями
-
-http://export.yandex.ru/weather-ng/forecasts/27612.xml
-
-Источник достоверных данных
-============================
-http://export.yandex.ru/weather-ng/forecasts/27612.xml
-
-https://devutilsonline.com/xsd-xml/generate-xsd-from-xml
-Russian Doll style content type string
-xjc.exe -d src/main/java/ -p ru.yandex.pogoda.ws resources/a.xsd
-
-Selinide не рассчитан для работы с несколькими браузерами одновременно bи даже с несколькими экземплярами одной и тойже страницы
-
-мобильная версия
-
-много форматирования, хорошобы иметь собственный фортаттер
-нужно больше специфичных матчеров
-
-
