@@ -3,7 +3,6 @@ package ru.yandex.pogoda.wi.lang;
 import static ru.yandex.pogoda.Messages.ERR_FAILED_READ_PROPERTIES;
 import static ru.yandex.pogoda.Messages.ERR_LANGUAGE_NOT_FOUND;
 import static ru.yandex.pogoda.Messages.ERR_PROPERTY_UNDEFINED;
-import static ru.yandex.pogoda.Messages.LOG_SET_LANGUAGE;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,7 +10,6 @@ import java.io.InputStreamReader;
 import java.util.Properties;
 
 import ru.yandex.common.FrameworkException;
-import ru.yandex.common.Loggers;
 import ru.yandex.common.Validate;
 
 /**
@@ -55,7 +53,6 @@ public class LocalizedTextManager {
 	public static void setLanguage(String lang) {
 		Validate.notNull(lang, "lang");
 		propCurrent = getProperties(lang);
-		Loggers.wi.debug(LOG_SET_LANGUAGE.getValue(lang));
 	}
 
 	/**

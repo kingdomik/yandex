@@ -28,21 +28,7 @@ public enum Messages implements IMessage {
 	ERR_LANGUAGE_NOT_FOUND("Language not found '%s'"),
 	ERR_LANGUAGE_UNDEFINED("Language is undefined"),
 	
-	ERR_FAILED_READ_LOG_CONFIG("Failed read log config %s"),
-	
-	ERR_NO_LANG_WEARTHER("Failed get weather for language %s"),
-	
-	TEST_VALUE("%s value"),
-	TEST_EXPECTED_VISIBLE("Expected visible %s"), 
-	TEST_EXPECTED_INVISIBLE("Expected invisible %s"), 
-	
-	TEST_EXPECTED_VALUE("Expected %s has value \"%s\""),
-	TEST_UNEXPECTED_VALUE("Unexpected %s has value \"%s\""),
-
-	TEST_CHECKED("Expected %s checked"),
-	TEST_UNCHECKED("Expected %s unchecked"),
-	
-	LOG_SET_LANGUAGE("Set language %s");
+	ERR_NO_LANG_WEARTHER("Failed get weather for language %s");
 	
 	private String message;
 
