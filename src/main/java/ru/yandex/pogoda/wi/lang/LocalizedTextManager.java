@@ -15,7 +15,7 @@ import ru.yandex.common.Loggers;
 import ru.yandex.common.Validate;
 
 /**
- * language manager class
+ * Manager of localized text
  * 
  */
 public class LocalizedTextManager {
@@ -26,21 +26,18 @@ public class LocalizedTextManager {
 	private static Properties getProperties(String lang) {
 		Validate.notNull(lang, "lang");
 		Properties properties = new Properties();
-		InputStream is = LocalizedTextManager.class.getResourceAsStream(lang.toLowerCase() + ".properties");
-		if (null == is) {
-			throw new FrameworkException(ERR_LANGUAGE_NOT_FOUND, lang);
-		}
-		try {
-			try {
-				properties.load(new InputStreamReader(is, "UTF-8"));
-			} finally {
-				is.close();
+		try (InputStream is = LocalizedTextManager.class.getResourceAsStream(lang.toLowerCase() + ".properties")) {
+			if (null == is) {
+				throw new FrameworkException(ERR_LANGUAGE_NOT_FOUND, lang);
+			}
+			try (InputStreamReader isr = new InputStreamReader(is, "UTF-8")) {
+				properties.load(isr);
 			}
 		} catch (IOException e) {
 			throw new FrameworkException(ERR_FAILED_READ_PROPERTIES, lang);
 		}
 
-		// Check property file defines all enum values
+		// Check bundle file defines all enum values
 		for (LocalizedText l : LocalizedText.values()) {
 			if (null == properties.getProperty(l.name())) {
 				throw new FrameworkException(ERR_PROPERTY_UNDEFINED, l.name(), lang);
@@ -51,10 +48,9 @@ public class LocalizedTextManager {
 	}
 
 	/**
-	 * Set language
+	 * Set current language
 	 * 
-	 * @param lang
-	 *            name of language
+	 * @param lang name of language
 	 */
 	public static void setLanguage(String lang) {
 		Validate.notNull(lang, "lang");

@@ -4,7 +4,8 @@ import ru.yandex.common.IMessage;
 import ru.yandex.common.Utils;
 
 /**
- * Messages collection used for framework 
+ * Message templates
+ *  
  */
 public enum Messages implements IMessage {
 

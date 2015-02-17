@@ -3,24 +3,39 @@ package ru.yandex.common;
 
 import java.util.Collection;
 
+/**
+ * Framework exception
+ *
+ */
 public class FrameworkException extends RuntimeException {
 
 	private static final long serialVersionUID = -1199259648444871312L;
 
 	private String message;
 
-	public FrameworkException(Throwable t, IMessage msg, Object... params) {
-		// Message is immutable field but we can't pass it to super constructor
-		// so pass dummy text and override getMessage()
-		super("", t);
-		params = convert(params);
-		message = msg.getValue(params);
+	/**
+	 * Create framework exception
+	 * @param cause - caused exception object
+	 * @param message - exception message, can be string format if parameters are required
+	 * @param params - message parameters
+	 */
+	public FrameworkException(Throwable cause, IMessage message, Object... params) {
+		super("", cause);
+		this.message = message.getValue(convert(params));
 	}
 
+	/**
+	 * Create framework exception
+	 * @param message - exception message, can be string format if parameters are required
+	 * @param params - message parameters
+	 */
 	public FrameworkException(IMessage message, Object... params) {
 		this(null, message, params);
 	}
 
+	/**
+	 * Return exception message
+	 */
 	@Override
 	public String getMessage() {
 		return message;

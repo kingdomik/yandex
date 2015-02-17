@@ -19,10 +19,18 @@ import java.util.Date;
 import javax.xml.bind.DatatypeConverter;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+/*
+ * Set of helpful functions
+ */
 public class Utils {
 
 	public static final String DEFAULT_ARRAY_DELIMITER = ",";
 
+	/**
+	 * Create URL object and add URL to exception message if failed. 
+	 * @param url - URL string
+	 * @return URL object
+	 */
 	public static URL getUrl(String url) {
 		try {
 			return new URL(url);
@@ -79,10 +87,6 @@ public class Utils {
 			}
 			s.append(delimiter);
 		}
-	}
-
-	public static String join(Collection<?> values) {
-		return join(DEFAULT_ARRAY_DELIMITER, values);
 	}
 
 	public static String join(String delimiter, Collection<?> values) {

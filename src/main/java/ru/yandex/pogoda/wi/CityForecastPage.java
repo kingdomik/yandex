@@ -3,7 +3,6 @@ package ru.yandex.pogoda.wi;
 import java.util.List;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 
 import ru.yandex.qatools.htmlelements.annotations.Name;
@@ -25,10 +24,14 @@ public class CityForecastPage extends ForecastPage {
 	public static final String WEATHER_ICON_URL = "url(\"https://yastatic.net/weather/i/icons/svg/%s.svg\")";
 	
 	/**
-	 * Total count of days available on the page 
+	 * Total count of days available on the page for brief and detailed views 
 	 */
 	public static final int DAYS_COUNT = 10;
 
+	/**
+	 * Wraps day part block after current day part 
+	 *
+	 */
 	public class AfterBlock extends HtmlElement {
 		
 		@Name("Часть дня")
@@ -51,7 +54,6 @@ public class CityForecastPage extends ForecastPage {
 	
 	@Name("Текущее время")
 	@FindBy(css = ".current-weather__today span")
-	@CacheLookup
 	public TextBlock txtLocalTime;
 
 	@Name("Текущая температура")
@@ -118,17 +120,32 @@ public class CityForecastPage extends ForecastPage {
 		super(driver);
 	}
 	
-	public BriefCityForecastBlock goBriefForecastBlock() {
+	/**
+	 * Switch to brief forecast view
+	 * @return brief forecast wrapper
+	 * @see BriefCityForecastBlock
+	 */
+	public BriefCityForecastBlock setBriefView() {
 		tabBrief.click();
 		return new BriefCityForecastBlock(getDriver());
 	}
 	
-	public DetailedCityForecastBlock goDetailedForecastBlock() {
+	/**
+	 * Switch to detailed forecast view
+	 * @return detailed forecast wrapper
+	 * @see DetailedCityForecastBlock
+	 */
+	public DetailedCityForecastBlock setDetailedView() {
 		tabDetailed.click();
 		return new DetailedCityForecastBlock(getDriver());
 	}
 	
-	public ClimateCityForecastBlock goClimateForecastBlock() {
+	/**
+	 * Switch to climate forecast view
+	 * @return climate forecast wrapper
+	 * @see ClimateCityForecastBlock
+	 */
+	public ClimateCityForecastBlock setClimateView() {
 		tabClimate.click();
 		return new ClimateCityForecastBlock(getDriver());
 	}

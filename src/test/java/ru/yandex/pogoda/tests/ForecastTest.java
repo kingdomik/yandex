@@ -246,7 +246,7 @@ public class ForecastTest {
 			dayShift = 1;
 		}
 		
-		BriefCityForecastBlock pagBrief = page.goBriefForecastBlock();
+		BriefCityForecastBlock pagBrief = page.setBriefView();
 		
 		assertThat(
 				wsDays.size(), 
@@ -276,7 +276,7 @@ public class ForecastTest {
 			assertDisplayed(
 				day.txtDayOfMonth, 
 				hasText(i == 0 | dow == 1 
-					? BRIEF_DATE.getValue(date.getDayOfMonth(), Month.getById(date.getMonthValue()).getGenitiveValue())  
+					? BRIEF_DATE.getValue(date.getDayOfMonth(), Month.get(date.getMonthValue()).getGenitiveValue())  
 					: "" + date.getDayOfMonth()));
 			assertDisplayed(
 				day.imgWeather, 
@@ -318,7 +318,7 @@ public class ForecastTest {
 			page.tabDetailed, 
 			hasText(TAB_DETAILED.getValue()));
 		
-		DetailedCityForecastBlock pagDetailed = page.goDetailedForecastBlock();
+		DetailedCityForecastBlock pagDetailed = page.setDetailedView();
 		
 		assertThat(
 			"web service days count",
@@ -355,7 +355,7 @@ public class ForecastTest {
 			assertDisplayed(
 				msgDay,
 				blkDateDay.txtDayOfMonth, 
-				hasText(DETAILED_DATE.getValue(date.getDayOfMonth(), Month.getById(date.getMonthValue()).getGenitiveValue())));
+				hasText(DETAILED_DATE.getValue(date.getDayOfMonth(), Month.get(date.getMonthValue()).getGenitiveValue())));
 			assertDisplayed(
 				msgDay,
 				wiForecatsDay.txtSunrise, 
@@ -378,7 +378,7 @@ public class ForecastTest {
 					wiForecatsDay.txtGeomagnetic.getText().trim(), 
 					isEmptyString());
 			} else {
-				// FIXME Can't reproduce page logic 
+				// FIXME Can't reproduce page logic to get correct geomagnetic value
 //				assertDisplayed(
 //					msgDay,
 //					wiForecatsDay.txtGeomagnetic, 
@@ -432,7 +432,7 @@ public class ForecastTest {
 	
 	@Test
 	public void testClimate() {
-		if (city.getClimates().length == 0) {
+		if (city.getDiagrams().length == 0) {
 			assertThat(
 				page.tabClimate.getWrappedElement(), 
 				not(isDisplayed()));
@@ -441,15 +441,15 @@ public class ForecastTest {
 				page.tabClimate, 
 				hasText(TAB_CLIMATE.getValue()));
 			
-			ClimateCityForecastBlock pagClimate = page.goClimateForecastBlock();
+			ClimateCityForecastBlock pagClimate = page.setClimateView();
 			
 			assertThat(
 				"climate diagram count", 
 				pagClimate.lstGraphs.size(), 
-				equalTo(city.getClimates().length));
+				equalTo(city.getDiagrams().length));
 
-			for (int i = 0; i < city.getClimates().length; i ++) {
-				Diagram diagram = city.getClimates()[i];
+			for (int i = 0; i < city.getDiagrams().length; i ++) {
+				Diagram diagram = city.getDiagrams()[i];
 				String msgDiagram = "diagram " + diagram.getTitle(); 
 				ClimateCityForecastBlock.Diagram blkDiagram = pagClimate.lstGraphs.get(i);
 				assertThat(

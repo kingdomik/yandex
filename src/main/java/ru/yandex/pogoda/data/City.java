@@ -22,6 +22,10 @@ import ru.yandex.pogoda.wi.lang.Language;
 import ru.yandex.pogoda.wi.lang.LocalizedText;
 import ru.yandex.pogoda.ws.Forecast;
 
+/**
+ * Enumerate cities required for testing
+ *
+ */
 public enum City {
 
 	SAINT_PETERSBURG(
@@ -45,7 +49,7 @@ public enum City {
 		72295, 
 		"America/Los_Angeles"),
 	
-	// Results for part search by "санкт"
+	// Cities are being used to test part search results so full data isn't required
 	ST_MORITZ(6790, null),
 	SANKT_ANTON_AM_ARLBERG(11110, null),
 	ST_GALLEN(0, null),
@@ -53,39 +57,80 @@ public enum City {
 	
 	private int id;
 	private ZoneId timeZone;
-	private Diagram[] climates;
+	private Diagram[] diagrams;
 	private Forecast data;
 	
-	City(int id, String timeZone, Diagram... climates) {
+	/**
+	 * Create city
+	 * 
+	 * @param id - city id according XML {@link http://pogoda.yandex.ru/static/cities.xml} 
+	 * @param timeZone - time zone name
+	 * @param diagrams - list of available climate diagrams
+	 */
+	City(int id, String timeZone, Diagram... diagrams) {
 		this.id = id;
 		this.timeZone = timeZone == null ? null : ZoneId.of(timeZone);
-		this.climates = climates;
+		this.diagrams = diagrams;
 	}
 	
+	/**
+	 * Return city by browser URL
+	 * @param url - browser URL
+	 * @return city
+	 */
 	public static City getByUrl(String url) {
 		return City.valueOf(Utils.getUrl(url).getPath().substring(1).toUpperCase().replace('-', '_'));
 	}
 	
-	public int getId() {
-		return id;
-	}
-	
-	public ZoneId getTimezone() {
-		return timeZone;
-	}
-	
-	public String getGenitive(Language lang) {
-		return LocalizedText.valueOf("GENITIVE_" + name()).getValue();
-	}
-	
-	public Diagram[] getClimates() {
-		return climates;
-	}
-	
+
+	/**
+	 * Return city name declared in {@link http://pogoda.yandex.ru/static/cities.xml}
+	 * @return city name
+	 */
 	public String getName() {
 		return getForecast().getCity();
 	}
 	
+	/**
+	 * Return city id
+	 * @return id
+	 */
+	public int getId() {
+		return id;
+	}
+	
+	/**
+	 * Return city time zone
+	 * @return time zone
+	 */
+	public ZoneId getTimezone() {
+		return timeZone;
+	}
+	
+	/**
+	 * Return city name genitive  
+	 * @param lang - language to be used
+	 * @return city name genitive 
+	 */
+	public String getGenitive(Language lang) {
+		return LocalizedText.valueOf("GENITIVE_" + name()).getValue();
+	}
+	
+	/**
+	 * Return available city climate diagrams
+	 * @return array of diagrams
+	 */
+	public Diagram[] getDiagrams() {
+		return diagrams;
+	}
+	
+	/**
+	 * Return city forecast information delivered by yandex web service
+	 * <p>
+	 * Data will be requested once first time and cached for all test session
+	 * @return forecast object
+	 * @see Forecast
+	 */
 	public Forecast getForecast() {
 		if (data == null) {
 			String url = String.format("http://export.yandex.ru/weather-ng/forecasts/%d.xml", getId());
@@ -107,7 +152,11 @@ public enum City {
 		}
 		return data;
 	}
-	
+
+	/**
+	 * Return URL to city forecast page
+	 * @return city URL
+	 */
 	public URL getUrl() {
 		return Utils.getUrl(CityForecastPage.URL + "/" + name().toLowerCase().replace('_', '-'));
 	}

@@ -10,10 +10,16 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.Image;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 
+/**
+ * Wraps climate block of city forecast page
+ *
+ */
 public class ClimateCityForecastBlock  extends ForecastPage {
 	
-	public static final int GRAPH_COUNT = 6;
-	
+	/**
+	 * Wraps climate diagram block
+	 *
+	 */
 	public static class Diagram extends HtmlElement {
 		
 		@Name("Заголовок")

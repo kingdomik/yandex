@@ -10,15 +10,22 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.Image;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 
+/**
+ * Wraps brief city forecast block
+ *
+ */
 public class BriefCityForecastBlock extends ForecastPage {
 	
 	/**
 	 * Hour separates day into two parts. If city local time less than hour 
-	 * then page shows brief forecast from today otherwise from tomorrow
+	 * then page shows brief forecast starting from today otherwise from tomorrow
 	 */
 	public static final int TODAYA_TOMMOW_HOUR = 9;
-	
-	
+
+	/**
+	 * Wraps day brief forecast block 
+	 *
+	 */
 	public static class DayOfWeekForecats extends HtmlElement {
 		
 		@Name("День недели")
@@ -51,7 +58,7 @@ public class BriefCityForecastBlock extends ForecastPage {
 	@FindBy(css=".forecast-brief__item:not(.forecast-brief__item_gap)")
 	public List<DayOfWeekForecats> days;
 	
-	public BriefCityForecastBlock(WebDriver driver) {
+	BriefCityForecastBlock(WebDriver driver) {
 	    super(driver);
     }
 	

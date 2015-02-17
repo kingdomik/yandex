@@ -10,10 +10,16 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.Link;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 
+/**
+ * Wraps forecast search results page
+ *
+ */
 public class SearchResultsPage extends ForecastPage {
 
-	public static final int DAYS_COUNT = 10;
-
+	/**
+	 * Wraps search result item block 
+	 *
+	 */
 	public static class Result extends HtmlElement {
 		
 		@Name("Город")

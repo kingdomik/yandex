@@ -3,9 +3,9 @@ package ru.yandex.pogoda.wi.lang;
 import ru.yandex.common.Utils;
 
 /**
- * Text used by tests
- * 
- * Each enum value must have corresponding entries localize property files  
+ * Enumerate all international messages
+ * <p>
+ * Each value must have corresponding entry localized for all supported languages
  *
  */
 public enum LocalizedText {
@@ -103,10 +103,19 @@ public enum LocalizedText {
 	DIAGRAM_DAY_TEMPERATURE,
 	DIAGRAM_NIGHT_TEMPERATURE;
 	
+	/**
+	 * Return text value formatted using specified parameters
+	 * @param params - parameters required for formating
+	 * @return formatted text
+	 */
 	public String getValue(Object... params) {
 		return Utils.format(LocalizedTextManager.getCurrent().getProperty(name()), params);
 	}
 	
+	/**
+	 * Return localized text name. Use default language bundle for text names
+	 * @return text name
+	 */
 	public String getName() {
 		return LocalizedTextManager.getDefault().getProperty(name());
 	}

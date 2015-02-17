@@ -9,8 +9,16 @@ import ru.yandex.qatools.htmlelements.annotations.Name;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.Select;
 
+/**
+ * Wraps language settings page
+ *
+ */
 public class LanguagePage extends Page {
 	
+	
+	/**
+	 * URL to language settings page 
+	 */
 	public static final String URL = "http://tune.yandex.ru/lang";
 
 	@Name("Язык")
@@ -25,6 +33,12 @@ public class LanguagePage extends Page {
 		super(driver);
 	}
 	
+	/**
+	 * Set current language
+	 * @param lang - language
+	 * @return settings page wrapper
+	 * @see SettingsPage
+	 */
 	public SettingsPage setLanguage(Language lang) {
 		selLanguage.selectByValue(lang.name().toLowerCase());
 		btnSubmit.click();

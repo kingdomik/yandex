@@ -10,8 +10,16 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.Image;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 
+/**
+ * Wraps detailed city forecast block
+ * 
+ */
 public class DetailedCityForecastBlock extends ForecastPage {
 
+	/**
+	 * Wraps day date block
+	 *
+	 */
 	public static class DateDayBlock extends HtmlElement {
 		
 		@Name("День недели")
@@ -24,6 +32,10 @@ public class DetailedCityForecastBlock extends ForecastPage {
 		
 	}
 
+	/**
+	 * Wraps day forecast block
+	 *
+	 */
 	public static class ForecastDayBlock extends HtmlElement {
 		
 		@Name("Восход")
@@ -48,6 +60,10 @@ public class DetailedCityForecastBlock extends ForecastPage {
 
 	}
 	
+	/**
+	 * Wraps part of day block
+	 *
+	 */
 	public static class DayPartBlock extends HtmlElement {
 	
 		@Name("Температура")
@@ -96,7 +112,7 @@ public class DetailedCityForecastBlock extends ForecastPage {
 	@FindBy(css="dd.forecast-detailed__day-info")
 	public List<ForecastDayBlock> daysForecast;
 	
-	public DetailedCityForecastBlock(WebDriver driver) {
+	DetailedCityForecastBlock(WebDriver driver) {
 	    super(driver);
     }
 
