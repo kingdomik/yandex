@@ -18,8 +18,8 @@ public enum Month {
 	NOVEMBER,
 	DECEMBER;
 
-	public String getValue() {
-		return LocalizedText.valueOf(name()).getValue();
+	public String getGenitiveValue() {
+		return LocalizedText.valueOf("GENITIVE_" + name()).getValue();
 	}
 	
 	public String getShortValue() {

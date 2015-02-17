@@ -28,7 +28,7 @@ public class SearchPage extends Page {
 		super(driver);
 	}
 	
-	public ForecastPage go(String text) {
+	public ForecastPage goForecast(String text) {
 		inpRequest.sendKeys(text);
 		btnSubmit.click();
 		return new ForecastPage(getDriver());

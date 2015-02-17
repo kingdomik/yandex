@@ -3,7 +3,7 @@ package ru.yandex.pogoda.data;
 import ru.yandex.common.Validate;
 import ru.yandex.pogoda.wi.lang.LocalizedText;
 
-public enum DaysOfWeek {
+public enum DayOfWeek {
 
 	MONDAY,
 	TUESDAY,
@@ -17,7 +17,7 @@ public enum DaysOfWeek {
 		return LocalizedText.valueOf(name()).getValue();
 	}
 	
-	public static DaysOfWeek get(int id) {
+	public static DayOfWeek get(int id) {
 		Validate.biggerOrEqual(id, 1, "day of week id");
 		Validate.smallerOrEqual(id, 7, "day of week id");
 		return values()[id - 1];

@@ -2,10 +2,10 @@ package ru.yandex.pogoda.tests;
 
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
 import static org.hamcrest.Matchers.isEmptyString;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
-import static ru.yandex.common.matchers.Matchers.equalToTrimmed;
 import static ru.yandex.common.matchers.Matchers.equalWithDelltaTo;
 import static ru.yandex.pogoda.wi.lang.LocalizedText.BRIEF_DATE;
 import static ru.yandex.pogoda.wi.lang.LocalizedText.BRIEF_TEMPERATURE_DAY;
@@ -41,7 +41,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.hamcrest.Matcher;
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -49,14 +48,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 import ru.yandex.common.Utils;
 import ru.yandex.common.wi.Browser;
 import ru.yandex.pogoda.data.City;
-import ru.yandex.pogoda.data.DaysOfWeek;
-import ru.yandex.pogoda.data.Diagram;
+import ru.yandex.pogoda.data.Climate;
+import ru.yandex.pogoda.data.DayOfWeek;
 import ru.yandex.pogoda.data.Geomagnetic;
 import ru.yandex.pogoda.data.Month;
 import ru.yandex.pogoda.data.WindDirection;
@@ -81,16 +79,17 @@ public class ForecastTest {
 	@Parameters(name = "{0}.{1}")
 	public static Iterable<Object[]> data1() {
 		return Arrays.asList(new Object[][] { 
-			{ City.MOSCOW, Language.RU }, 
-//			{ City.LOS_ANGELES, Language.RU }, 
-//			{ City.SAINT_PETERSBURG, Language.RU }, 
-//			{ City.MOSCOW, Language.UK }, 
-//			{ City.LOS_ANGELES, Language.UK }, 
-//			{ City.SAINT_PETERSBURG, Language.UK }, 
+//			{ Language.RU, City.MOSCOW }, 
+//			{ Language.RU, City.LOS_ANGELES }, 
+//			{ Language.RU, City.SAINT_PETERSBURG }, 
+//			{ Language.UK, City.MOSCOW }, 
+//			{ Language.UK, City.LOS_ANGELES }, 
+			{ Language.UK, City.SAINT_PETERSBURG }, 
 		});
 	}
 	
 	static Browser browser;
+	
 	ForecastPage page;
 	Forecast wsForecast;
 	List<Forecast.Day> wsDays;
@@ -107,9 +106,9 @@ public class ForecastTest {
 		browser.close();
 	}
 	
-	public ForecastTest(City city, Language lang) {
-		this.city = city;
+	public ForecastTest(Language lang, City city) {
 		this.lang = lang;
+		this.city = city;
 	}
 	
 	@Before
@@ -160,27 +159,38 @@ public class ForecastTest {
 		// FIXME test after day part
 		Forecast.Fact wsFact = wsForecast.getFact();
 		
-		String location = LOCATION.getValue(city.getGenetive(lang));
-		String temperature = TEMPERATURE_CELSIUS.getValue(Utils.temperature(wsFact.getTemperature().getValue()));
-		String iconUrl = String.format(ICON_URL, wsFact.getImageV3().getValue());
-		String yesterday = TEMPERATURE_YESTERDAY.getValue(Utils.temperature(wsForecast.getYesterday().getTemperature().getValue()));
-		String sunriseAndSunset = SUNRISE_SUNSET.getValue(wsForecast.getDay().get(0).getSunrise(), wsForecast.getDay().get(0).getSunset());
-		
-		LocalTime localTime = LocalTime.parse(page.txtLocalTime.getText(), DateTimeFormatter.ofPattern("HH:mm"));
-
-		assertElement(page.txtLocation, hasText(location));
+		assertElement(
+			page.txtLocation, 
+			hasText(LOCATION.getValue(city.getGenitive(lang))));
 		assertThat(page.txtLocalTime.getWrappedElement(), isDisplayed());
-		assertThat(localTime, equalWithDelltaTo(LocalTime.now(city.getTimezone()), ChronoUnit.MINUTES, 1));
-		assertElement(page.txtTemperature, hasText(temperature));
+		assertThat(
+			LocalTime.parse(page.txtLocalTime.getText(), DateTimeFormatter.ofPattern("HH:mm")), 
+			equalWithDelltaTo(LocalTime.now(city.getTimezone()), ChronoUnit.MINUTES, 1));
+		assertElement(
+			page.txtTemperature, 
+			hasText(TEMPERATURE_CELSIUS.getValue(Utils.temperature(wsFact.getTemperature().getValue()))));
 		assertElement(page.txtCondition, hasText(lang.getWeatherType(wsFact)));
-		assertElement(page.imgCondition, hasCss("background-image", iconUrl));
-		assertElement(page.txtYesterdayTemperature, hasText(yesterday));
-		if (wsFact.getWaterTemperature() != null) {
+		assertElement(
+			page.imgCondition, 
+			hasCss("background-image", String.format(ICON_URL, wsFact.getImageV3().getValue())));
+		assertElement(
+			page.txtYesterdayTemperature, 
+			hasText(TEMPERATURE_YESTERDAY.getValue(Utils.temperature(wsForecast.getYesterday().getTemperature().getValue()))));
+		
+		if (wsFact.getWaterTemperature() == null) {
+			assertThat(
+				page.txtWaterTemperature.getWrappedElement(),
+				not(isDisplayed()));
+		} else {
 			assertElement(
-					page.txtWaterTemperature, 
-					hasText(WATER_TEMPERATURE.getValue(Utils.temperature(wsFact.getWaterTemperature()))));
+				page.txtWaterTemperature, 
+				hasText(WATER_TEMPERATURE.getValue(Utils.temperature(wsFact.getWaterTemperature()))));
 		}
-		assertElement(page.txtSunriseSunset, hasText(sunriseAndSunset));
+		
+		assertElement(
+			page.txtSunriseSunset, 
+			hasText(SUNRISE_SUNSET.getValue(wsForecast.getDay().get(0).getSunrise(), wsForecast.getDay().get(0).getSunset())));
+		
 		String wind;
 		WindDirection windDirection = WindDirection.get(wsFact.getWindDirection());
 		if (WindDirection.CALM.equals(windDirection)) {
@@ -206,61 +216,70 @@ public class ForecastTest {
 	
 	@Test
 	public void testBrief() {
-		BriefForecastBlock pagBrief = page.goBriefForecastBlock();
-		
-		// Web service delivers data for 10 days where 1 today and 9 next days
-		assertThat(wsDays.size(), equalTo(ForecastPage.DAYS_COUNT));
-
 		LocalDate date = LocalDate.now(city.getTimezone());
 		LocalTime time = LocalTime.now(city.getTimezone());
 		
 		int dayShift = 0;
-		if (time.getHour() > ForecastPage.TODAYA_TOMMOW_SWITCH) {
+		if (time.getHour() >= ForecastPage.TODAYA_TOMMOW_SWITCH) {
 			date = date.plusDays(1);
 			dayShift = 1;
 		}
 		
+		BriefForecastBlock pagBrief = page.goBriefForecastBlock();
+		
+		assertThat(
+				wsDays.size(), 
+				equalTo(ForecastPage.DAYS_COUNT));
+
 		for(int i = 0; i < ForecastPage.DAYS_COUNT - 1; i++) {
 			Forecast.Day wsDay = wsDays.get(i + dayShift);
 			DayOfWeekForecats day = pagBrief.days.get(i);
 			
 			int dow = date.getDayOfWeek().getValue();
-			String dayOfWeek = 
-				i == 0 
-					? (dayShift == 0 
-						? LocalizedText.TODAY.getValue()
-						: LocalizedText.TOMORROW.getValue())
-					: DaysOfWeek.get(dow).getValue();
-			String dayOfMonth = 
-				i == 0 | dow == 1 
-					? BRIEF_DATE.getValue(date.getDayOfMonth(), Month.get(date.getMonthValue()).getValue())  
-					: "" + date.getDayOfMonth();
 			Forecast.Day.DayPart wsDayPart = wsDay.getDayPart().get(1); 
 			Forecast.Day.DayPart wsNightPart = wsDay.getDayPart().get(3);
-			String dayTemperature = (
-				i == 0 
-					? BRIEF_TEMPERATURE_DAY 
-					: TEMPERATURE
-				).getValue(getTemperature(wsDayPart, true));
-			String nightTemperature = (
-				i == 0 
-					? BRIEF_TEMPERATURE_NIGHT 
-					: TEMPERATURE
-				).getValue(getTemperature(wsNightPart, false));
-			String iconUrl = String.format(ICON_URL, wsDayPart.getImageV3().getValue());
 			
 			// Web service is trusted data source but self-check would be useful anyway  
 			assertThat(wsDay.getDate().toString(), equalTo(date.toString()));
 			assertThat(wsDayPart.getType(), equalTo("day"));
 			assertThat(wsNightPart.getType(), equalTo("night"));
 			
-			assertElement(day.txtDayOfWeek, hasText(dayOfWeek));
-			assertElement(day.txtDayOfMonth, hasText(dayOfMonth));
-			assertElement(day.imgDayStateIcon, hasCss("background-image", iconUrl));
-			// For unknown reason extra space can be added to weather type
-			assertElement(day.txtDayState, hasText(equalToTrimmed(lang.getWeatherType(wsDayPart))));
-			assertElement(day.txtDayTemperature, hasText(dayTemperature));
-			assertElement(day.txtNightTemperature, hasText(nightTemperature));
+			assertElement(
+				day.txtDayOfWeek, 
+				hasText(
+					i == 0 
+					? (dayShift == 0 
+						? LocalizedText.TODAY.getValue()
+						: LocalizedText.TOMORROW.getValue())
+					: DayOfWeek.get(dow).getValue()));
+			assertElement(
+				day.txtDayOfMonth, 
+				hasText(i == 0 | dow == 1 
+					? BRIEF_DATE.getValue(date.getDayOfMonth(), Month.get(date.getMonthValue()).getGenitiveValue())  
+					: "" + date.getDayOfMonth()));
+			assertElement(
+				day.imgCondition, 
+				hasCss("background-image", String.format(ICON_URL, wsDayPart.getImageV3().getValue())));
+			assertElement(
+				day.txtCondition, 
+				// For unknown reason extra space can be added to web service weather type, e.g.
+				// <weather_type_ua>хмарно з проясненнями , невеликий сніг</weather_type_ua>
+				// so compare ignoring white spaces as workaround
+				hasText(equalToIgnoringWhiteSpace(lang.getWeatherType(wsDayPart))));
+			assertElement(
+				day.txtDayTemperature, 
+				hasText((
+					i == 0 
+						? BRIEF_TEMPERATURE_DAY 
+						: TEMPERATURE
+					).getValue(getTemperature(wsDayPart, true))));
+			assertElement(
+				day.txtNightTemperature, 
+				hasText((
+					i == 0 
+						? BRIEF_TEMPERATURE_NIGHT 
+						: TEMPERATURE
+					).getValue(getTemperature(wsNightPart, false))));
 			
 			date = date.plusDays(1);			
 		}
@@ -271,12 +290,15 @@ public class ForecastTest {
 	public void testDetailed() {
 		DetailedForecastBlock pagDetailed = page.goDetailedForecastBlock();
 		
-		// Web service delivers data for 10 days where 1 today and 9 next days
-		assertThat(wsDays.size(), equalTo(ForecastPage.DAYS_COUNT));
-
-		// FIXME set DAYS_COUNT to 10
-		assertThat(pagDetailed.daysDates.size(), equalTo(ForecastPage.DAYS_COUNT));
-		assertThat(pagDetailed.daysForecast.size(), equalTo(ForecastPage.DAYS_COUNT));
+		assertThat(
+			wsDays.size(), 
+			equalTo(ForecastPage.DAYS_COUNT));
+		assertThat(
+			pagDetailed.daysDates.size(), 
+			equalTo(ForecastPage.DAYS_COUNT));
+		assertThat(
+			pagDetailed.daysForecast.size(), 
+			equalTo(ForecastPage.DAYS_COUNT));
 		
 		LocalDate date = LocalDate.now(city.getTimezone());
 		// FIXME check daysDates size
@@ -292,47 +314,59 @@ public class ForecastTest {
 			assertThat(wsDay.getDayPart().get(2).getType(), equalTo("evening"));
 			assertThat(wsDay.getDayPart().get(3).getType(), equalTo("night"));
 
-			int dow = date.getDayOfWeek().getValue();
-			String dayOfWeek = DaysOfWeek.get(dow).getValue();
-			String dayOfMonth = DETAILED_DATE.getValue(date.getDayOfMonth(), Month.get(date.getMonthValue()).getValue());
-			String sunrise = DETAILED_SUNRISE.getValue(wsDay.getSunrise());
-			String sunset = DETAILED_SUNSET.getValue(wsDay.getSunset());
-			String moonClass = "icon_moon_" + wsDay.getMoonPhase().getValue();
-
-			assertElement(wiDateDay.txtDayOfWeek, hasText(dayOfWeek));
-			assertElement(wiDateDay.txtDayOfMonth, hasText(dayOfMonth));
-
-			assertElement(wiForecatsDay.txtSunrise, hasText(sunrise));
-			assertElement(wiForecatsDay.txtSunset, hasText(sunset));
-			assertElement(wiForecatsDay.imgMoon, hasClass(moonClass));
+			assertElement(
+				wiDateDay.txtDayOfWeek, 
+				hasText(DayOfWeek.get(date.getDayOfWeek().getValue()).getValue()));
+			assertElement(
+				wiDateDay.txtDayOfMonth, 
+				hasText(DETAILED_DATE.getValue(date.getDayOfMonth(), Month.get(date.getMonthValue()).getGenitiveValue())));
+			assertElement(
+				wiForecatsDay.txtSunrise, 
+				hasText(DETAILED_SUNRISE.getValue(wsDay.getSunrise())));
+			assertElement(
+				wiForecatsDay.txtSunset, 
+				hasText(DETAILED_SUNSET.getValue(wsDay.getSunset())));
+			assertElement(
+				wiForecatsDay.imgMoon, 
+				hasClass("icon_moon_" + wsDay.getMoonPhase().getValue()));
 			
 			Forecast.Day.Biomet wsBiomet = wsDay.getBiomet();
 			if (wsBiomet == null) {
-				assertThat(wiForecatsDay.txtGeomagnetic.getText().trim(), isEmptyString());
+				assertThat(
+					wiForecatsDay.txtGeomagnetic.getText().trim(), 
+					isEmptyString());
 			} else {
 				assertElement(
-						wiForecatsDay.txtGeomagnetic, 
-						hasText(GEOMAGNETIC.getValue(Geomagnetic.get(wsBiomet.getMessage().get(1).getCode()).getValue())));
+					wiForecatsDay.txtGeomagnetic, 
+					hasText(GEOMAGNETIC.getValue(Geomagnetic.get(wsBiomet.getMessage().get(1).getCode()).getValue())));
 			}
+			
 			// FIXME check part size
 			for(int j = 0; j < 4; j++) {
 				Forecast.Day.DayPart wsDayPart = wsDay.getDayPart().get(j);
 				DayPartBlock wiDayPart = wiForecatsDay.dayParts.get(j);
-				String temperature = getDetailedTemperature(wsDayPart);
-				String iconUrl = String.format(ICON_URL, wsDayPart.getImageV3().getValue());
-				String pressure = "" + wsDayPart.getPressure().getValue();
-				String humidity = DETAILED_HUMIDITY.getValue(wsDayPart.getHumidity());
-				String windSpeed = Utils.formatFloat(Float.parseFloat(wsDayPart.getWindSpeed()), WIND_SPEED.getValue());
-				String windDirection = WindDirection.get(wsDayPart.getWindDirection()).getValue();
-				String windDirectionClass = "icon_wind_" + wsDayPart.getWindDirection();
 				
-				assertElement(wiDayPart.txtTemperature, hasText(temperature));
-				assertElement(wiDayPart.imgCondition, hasCss("background-image", iconUrl));
-				assertElement(wiDayPart.txtPressure, hasText(pressure));
-				assertElement(wiDayPart.txtHumidity, hasText(humidity));
-				assertElement(wiDayPart.txtWindSpeed, hasText(windSpeed));
-				assertElement(wiDayPart.txtWindDirection, hasText(windDirection));
-				assertElement(wiDayPart.imgWindDirection, hasClass(windDirectionClass));
+				assertElement(
+					wiDayPart.txtTemperature, 
+					hasText(getDetailedTemperature(wsDayPart)));
+				assertElement(
+					wiDayPart.imgCondition, 
+					hasCss("background-image", String.format(ICON_URL, wsDayPart.getImageV3().getValue())));
+				assertElement(
+					wiDayPart.txtPressure, 
+					hasText("" + wsDayPart.getPressure().getValue()));
+				assertElement(
+					wiDayPart.txtHumidity, 
+					hasText(DETAILED_HUMIDITY.getValue(wsDayPart.getHumidity())));
+				assertElement(
+					wiDayPart.txtWindSpeed, 
+					hasText(Utils.formatFloat(Float.parseFloat(wsDayPart.getWindSpeed()), WIND_SPEED.getValue())));
+				assertElement(
+					wiDayPart.txtWindDirection, 
+					hasText(WindDirection.get(wsDayPart.getWindDirection()).getValue()));
+				assertElement(
+					wiDayPart.imgWindDirection, 
+					hasClass("icon_wind_" + wsDayPart.getWindDirection()));
 			}
 			
 			date = date.plusDays(1);
@@ -342,27 +376,34 @@ public class ForecastTest {
 	
 	@Test
 	public void testClimate() {
-		if (city.hasClimate()) {
+		if (city.getClimates().length == 0) {
+			assertThat(
+				"tab Climate",
+				page.tabClimate.getWrappedElement(), 
+				not(isDisplayed()));
+		} else {
 			ClimateForecastBlock pagClimate = page.goClimateForecastBlock();
 			
-			assertThat(pagClimate.lstGraphs.size(), equalTo(ClimateForecastBlock.GRAPH_COUNT));
-			
-			for(int i = 0; i < ClimateForecastBlock.GRAPH_COUNT; i++) {
-				Diagram diagram = Diagram.values()[i];
+			assertThat(
+				"climate diagram count", 
+				pagClimate.lstGraphs.size(), 
+				equalTo(city.getClimates().length));
+
+			for (int i = 0; i < city.getClimates().length; i ++) {
+				Climate diagram = city.getClimates()[i];
 				ClimateForecastBlock.Diagram blkDiagram = pagClimate.lstGraphs.get(i);
-				assertThat(blkDiagram.txtTitle.getText(), equalTo(diagram.getTitle()));
-				assertThat(blkDiagram.imgGraph.getSource(), equalTo(diagram.getUrl(wsForecast.getGeoid()).toString()));
+				assertThat(
+					blkDiagram.txtTitle.getText(), 
+					equalTo(diagram.getTitle()));
+				assertThat(
+					blkDiagram.imgGraph.getSource(), 
+					equalTo(diagram.getUrl(wsForecast.getGeoid()).toString()));
 				
 				for(int j = 0; j < Month.values().length; j++) {
-					assertThat(blkDiagram.lstMonths.get(j).getText(), equalTo(Month.values()[j].getShortValue()));
+					assertThat(
+						blkDiagram.lstMonths.get(j).getText(), 
+						equalTo(Month.values()[j].getShortValue()));
 				}
-			}		
-		} else {
-			try {
-				page.tabClimate.isDisplayed();
-				fail("Unexpected Climate tab");
-			} catch (NoSuchElementException e) {
-				// Do nothing
 			}
 		}
 	}

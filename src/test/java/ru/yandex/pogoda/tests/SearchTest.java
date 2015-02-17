@@ -7,54 +7,59 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static ru.yandex.pogoda.common.Messages.FAIL_CITY_NOT_FOUND;
 import static ru.yandex.pogoda.wi.lang.LocalizedText.MSG_SEARCHED;
 import static ru.yandex.qatools.htmlelements.matchers.common.HasTextMatcher.hasText;
 import static ru.yandex.qatools.htmlelements.matchers.common.IsElementDisplayedMatcher.isDisplayed;
 
-import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import ru.yandex.common.Utils;
+import ru.yandex.common.wi.Browser;
 import ru.yandex.pogoda.data.City;
 import ru.yandex.pogoda.wi.ForecastPage;
 import ru.yandex.pogoda.wi.SearchResultsPage;
 
 public class SearchTest {
 	
-	WebDriver driver;
+	static Browser browser;
+	
 	ForecastPage pagMain;
 	SearchResultsPage pagResults;
 	
-	@Before
-	public void setup() {
-		driver = new FirefoxDriver();
-		driver.get("http://pogoda.yandex.ru");
-		pagMain = new ForecastPage(driver);
+	@BeforeClass
+	public static void opneBrowser() {
+		browser = new Browser();
 	}
 	
-	@After
-	public void cleanup() {
-		driver.quit();
+	@AfterClass
+	public static void closeBrowser() {
+		browser.close();
+	}
+	
+	@Before
+	public void setup() {
+		pagMain = browser.goForecast("http://pogoda.yandex.ru");
 	}
 	
 	@Test
 	public void testSearchExactly() {
-		pagMain = pagMain.go(City.SAINT_PETERSBURG.getForecast().getCity());
+		pagMain = pagMain.goForecast(City.SAINT_PETERSBURG.getName());
 		assertThat(pagMain.getUrl(), equalTo(City.SAINT_PETERSBURG.getUrl()));
 		
-		pagMain = pagMain.go(City.MOSCOW.getForecast().getCity());
+		pagMain = pagMain.goForecast(City.MOSCOW.getName());
 		assertThat(pagMain.getUrl(), equalTo(City.MOSCOW.getUrl()));		
 	}
 	
 	@Test
 	public void testSearchPartlySingle() {
-		pagMain = pagMain.go(City.MOSCOW.getForecast().getCity());
+		pagMain = pagMain.goForecast(City.MOSCOW.getName());
 		assertThat(pagMain.getUrl(), equalTo(City.MOSCOW.getUrl()));		
 
-		pagMain = pagMain.go("петербург");
+		pagMain = pagMain.goForecast("петербург");
 		assertThat(pagMain.getUrl(), equalTo(City.SAINT_PETERSBURG.getUrl()));
 	}
 	
@@ -64,9 +69,11 @@ public class SearchTest {
 		pagResults = pagMain.search(text);
 		assertThat(pagResults.txtMessage.getWrappedElement(), hasText(MSG_SEARCHED.getValue(text)));
 		assertThat(pagResults.lstResults, not(empty()));
+		
 		for(SearchResultsPage.Result blkResult : pagResults.lstResults) {
 			City city = City.getByUrl(blkResult.lnkCity.getReference());
 			// WARNING: Unfortunately code is unknown for some cities
+			// so web service info is unavailable. Need extra data source to fix
 			if (city.getId() > 0) {
 				assertThat(
 						blkResult.txtTemperature.getText(), 
@@ -74,15 +81,17 @@ public class SearchTest {
 			}
 			assertThat(blkResult.lnkCity.getText(), startsWith(text));
 		}
+		
 		for(SearchResultsPage.Result blkResult : pagResults.lstResults) {
 			if (City.SAINT_PETERSBURG.getName().equals(blkResult.lnkCity.getText())) {
 				blkResult.lnkCity.click();
-				pagMain = new ForecastPage(driver);
+				pagMain = browser.getForecastPage();
 				assertThat(pagMain.getUrl(), equalTo(City.SAINT_PETERSBURG.getUrl()));
 				return;
 			}
 		}
-		fail(String.format("City %s not found for search request %s", City.SAINT_PETERSBURG.getName(), text));
+		
+		fail(FAIL_CITY_NOT_FOUND.getValue(City.SAINT_PETERSBURG.getName(), text));
 	}
 	
 	@Test
@@ -92,18 +101,21 @@ public class SearchTest {
 		pagResults = pagMain.search(cityEnglish);
 		assertThat(pagResults.txtMessage.getWrappedElement(), hasText(MSG_SEARCHED.getValue(cityEnglish)));
 		assertThat(pagResults.lstResults, not(empty()));
+		
 		for(SearchResultsPage.Result blkResult : pagResults.lstResults) {
 			assertThat(blkResult.lnkCity.getText(), containsString("Saint Petersburg"));
 		}
+		
 		for(SearchResultsPage.Result blkResult : pagResults.lstResults) {
 			if (blkResult.lnkCity.getText().startsWith(cityRussian)) {
 				blkResult.lnkCity.click();
-				pagMain = new ForecastPage(driver);
+				pagMain = browser.getForecastPage();
 				assertThat(pagMain.getUrl(), equalTo(City.SAINT_PETERSBURG.getUrl()));
 				return;
 			}
 		}
-		fail(String.format("City %s not found for search request %s", cityRussian, cityEnglish));
+		
+		fail(FAIL_CITY_NOT_FOUND.getValue(cityRussian, cityEnglish));
 	}
 	
 	@Test

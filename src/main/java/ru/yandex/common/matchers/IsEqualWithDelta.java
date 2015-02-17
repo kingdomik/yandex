@@ -6,7 +6,6 @@ import java.time.temporal.ChronoUnit;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
-
 public class IsEqualWithDelta extends TypeSafeDiagnosingMatcher<LocalTime> {
 	
     private final LocalTime time;

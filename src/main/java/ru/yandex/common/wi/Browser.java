@@ -25,6 +25,10 @@ public class Browser {
 	
 	public ForecastPage goForecast(String url) {
 		driver.get(url);
+		return getForecastPage();
+	}
+	
+	public ForecastPage getForecastPage() {
 		return new ForecastPage(driver);
 	}
 	

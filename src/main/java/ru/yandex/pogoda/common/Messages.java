@@ -39,6 +39,8 @@ public enum Messages implements IMessage {
 	TEST_CHECKED("Expected %s checked"),
 	TEST_UNCHECKED("Expected %s unchecked"),
 	
+	FAIL_CITY_NOT_FOUND("City %s not found for search request %s"),
+	
 	LOG_SET_LANGUAGE("Set language %s");
 	
 	private String message;

@@ -16,10 +16,12 @@
 
 	<target name="clean">
 		<delete dir="${bin}" failonerror="true" />
+        <delete dir="${reports}" failonerror="true" />
 	</target>
 
 	<target name="prepare">
 		<mkdir dir="${bin}" />
+		<mkdir dir="${reports}" />
 	</target>
 
 	<target name="resources">
@@ -39,12 +41,13 @@
 	<target name="test">
 		<junit>
 			<classpath refid="libs" />
-			<batchtest>
+			<batchtest todir="${reports}">
 				<fileset dir="${test}">
 					<include name="**/*Test.java" />
 				</fileset>
 			</batchtest>
-			<formatter type="plain" usefile="false" />
+            <formatter type="brief" />
+			<formatter type="xml" />
 		</junit>
 		<junitreport todir="${reports}">
 			<fileset dir="${reports}" includes="TEST-*.xml" />

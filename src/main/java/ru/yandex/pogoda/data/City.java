@@ -22,25 +22,42 @@ import ru.yandex.pogoda.ws.Forecast;
 
 public enum City {
 
-	SAINT_PETERSBURG(26063, "Europe/Moscow", true),
-	MOSCOW(27612, "Europe/Moscow", true),
-	LOS_ANGELES(72295, "America/Los_Angeles", false),
+	SAINT_PETERSBURG(
+		26063, 
+		"Europe/Moscow", 
+		Climate.RAINFALL, 
+		Climate.DAY_TEMPERATURE, 
+		Climate.NIGHT_TEMPERATURE),
+		
+	MOSCOW(
+		27612, 
+		"Europe/Moscow", 
+		Climate.HUMIDITY, 
+		Climate.RAINFALL_DAYS,
+		Climate.RAINFALL,
+		Climate.SUN_DAYS,
+		Climate.DAY_TEMPERATURE,
+		Climate.NIGHT_TEMPERATURE),
+		
+	LOS_ANGELES(
+		72295, 
+		"America/Los_Angeles"),
 	
 	// Results for part search by "санкт"
-	ST_MORITZ(6790, null, false),
-	SANKT_ANTON_AM_ARLBERG(11110, null, false),
-	ST_GALLEN(0, null, false),
-	SANKT_POLTEN(0, null, false);
+	ST_MORITZ(6790, null),
+	SANKT_ANTON_AM_ARLBERG(11110, null),
+	ST_GALLEN(0, null),
+	SANKT_POLTEN(0, null);
 	
 	private int id;
 	private ZoneId timeZone;
-	private boolean hasClimate;
+	private Climate[] climates;
 	private Forecast data;
 	
-	City(int id, String timeZone, boolean hasClimate) {
+	City(int id, String timeZone, Climate... climates) {
 		this.id = id;
 		this.timeZone = timeZone == null ? null : ZoneId.of(timeZone);
-		this.hasClimate = hasClimate;
+		this.climates = climates;
 	}
 	
 	public static City getByUrl(String url) {
@@ -55,12 +72,12 @@ public enum City {
 		return timeZone;
 	}
 	
-	public String getGenetive(Language lang) {
-		return LocalizedText.valueOf("GENETIVE_" + name()).getValue();
+	public String getGenitive(Language lang) {
+		return LocalizedText.valueOf("GENITIVE_" + name()).getValue();
 	}
 	
-	public boolean hasClimate() {
-		return hasClimate;
+	public Climate[] getClimates() {
+		return climates;
 	}
 	
 	public String getName() {

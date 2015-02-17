@@ -24,11 +24,11 @@ public class BriefForecastBlock extends SearchPage {
 		
 		@Name("Иконка погоды")
 		@FindBy(tagName="i")
-		public Image imgDayStateIcon;
+		public Image imgCondition;
 		
 		@Name("Cостояние погоды")
 		@FindBy(className="forecast-brief__item-comment")
-		public TextBlock txtDayState;
+		public TextBlock txtCondition;
 		
 		@Name("Температура днем")
 		@FindBy(className="forecast-brief__item-temp-day")
