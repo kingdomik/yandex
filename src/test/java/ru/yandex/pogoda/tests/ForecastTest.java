@@ -138,7 +138,9 @@ public class ForecastTest {
 			allOf(isDisplayed(), matcher)
 		);
 	}
-	
+
+	// TODO Temperature building can be moved to ForecastPage since 
+	// this is more page logic than test one
 	String getTemperature(Forecast.Day.DayPart dayPart, boolean day) {
 		return Utils.temperature( 
 			dayPart.getTemperatureFrom() == null & dayPart.getTemperatureTo() == null
@@ -155,6 +157,8 @@ public class ForecastTest {
 		);
 	}
 	
+	// TODO Temperature building can be moved to ForecastPage since 
+	// this is more page logic than test one
 	String getDetailedTemperature(Forecast.Day.DayPart dayPart) {
 		return  
 			dayPart.getTemperatureFrom() == null & dayPart.getTemperatureTo() == null
@@ -194,6 +198,7 @@ public class ForecastTest {
 			page.txtYesterdayTemperature, 
 			hasText(TEMPERATURE_YESTERDAY.getValue(Utils.temperature(wsForecast.getYesterday().getTemperature().getValue()))));
 		
+		// Water temperature is optional
 		if (wsFact.getWaterTemperature() == null) {
 			assertThat(
 				page.txtWaterTemperature.getWrappedElement(),
@@ -240,8 +245,8 @@ public class ForecastTest {
 	@Test
 	public void testBrief() {
 		assertDisplayed(
-				page.tabBrief, 
-				hasText(TAB_BRIEF.getValue()));
+			page.tabBrief, 
+			hasText(TAB_BRIEF.getValue()));
 			
 		LocalDate date = LocalDate.now(city.getTimezone());
 		LocalTime time = LocalTime.now(city.getTimezone());
@@ -255,10 +260,11 @@ public class ForecastTest {
 		BriefCityForecastBlock pagBrief = page.setBriefView();
 		
 		assertThat(
-				wsDays.size(), 
-				equalTo(CityForecastPage.DAYS_COUNT));
+			wsDays.size(), 
+			equalTo(CityForecastPage.DAYS_COUNT));
 
 		for(int i = 0; i < CityForecastPage.DAYS_COUNT - 1; i++) {
+			String msgDay = "day " + date;
 			Forecast.Day wsDay = wsDays.get(i + dayShift);
 			DayOfWeekForecats day = pagBrief.days.get(i);
 			
@@ -267,11 +273,21 @@ public class ForecastTest {
 			Forecast.Day.DayPart wsNightPart = wsDay.getDayPart().get(3);
 			
 			// Web service is trusted data source but self-check would be useful anyway  
-			assertThat(wsDay.getDate().toString(), equalTo(date.toString()));
-			assertThat(wsDayPart.getType(), equalTo("day"));
-			assertThat(wsNightPart.getType(), equalTo("night"));
+			assertThat(
+				msgDay,
+				wsDay.getDate().toString(), 
+				equalTo(date.toString()));
+			assertThat(
+				msgDay,
+				wsDayPart.getType(), 
+				equalTo("day"));
+			assertThat(
+				msgDay,
+				wsNightPart.getType(), 
+				equalTo("night"));
 			
 			assertDisplayed(
+				msgDay,
 				day.txtDayOfWeek, 
 				hasText(
 					i == 0 
@@ -280,11 +296,13 @@ public class ForecastTest {
 						: LocalizedText.TOMORROW.getValue())
 					: DayOfWeek.get(dow).getValue()));
 			assertDisplayed(
+				msgDay,
 				day.txtDayOfMonth, 
 				hasText(i == 0 | dow == 1 
 					? BRIEF_DATE.getValue(date.getDayOfMonth(), Month.get(date.getMonthValue()).getGenitiveValue())  
 					: "" + date.getDayOfMonth()));
 			assertDisplayed(
+				msgDay,
 				day.imgWeather, 
 				hasCss("background-image", String.format(WEATHER_ICON_URL, wsDayPart.getImageV3().getValue())));
 			// FIXME For unknown reason extra space can be added to web service weather type, e.g.
@@ -296,9 +314,11 @@ public class ForecastTest {
 			//	     but: element text equalToIgnoringWhiteSpace("хмарно з проясненнями , невеликий сніг") text of element <Cостояние погоды> was "хмарно з проясненнями, невеликий сніг"
 			//		at org.hamcrest.MatcherAssert.assertThat(MatcherAssert.java:20)
 //			assertDisplayed(
+//				msgDay,
 //				day.txtCondition, 
 //				hasText(equalToIgnoringWhiteSpace(lang.getWeatherType(wsDayPart))));
 			assertDisplayed(
+				msgDay,
 				day.txtDayTemperature, 
 				hasText((
 					i == 0 
@@ -306,6 +326,7 @@ public class ForecastTest {
 						: TEMPERATURE
 					).getValue(getTemperature(wsDayPart, true))));
 			assertDisplayed(
+				msgDay,
 				day.txtNightTemperature, 
 				hasText((
 					i == 0 
