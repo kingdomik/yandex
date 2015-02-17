@@ -13,7 +13,7 @@ public class ContainsIgnoreCase extends TypeSafeMatcher<String> {
 
     @Override
     public boolean matchesSafely(String item) {
-        return string.toLowerCase().indexOf(item.toLowerCase()) != -1;
+        return item.toLowerCase().indexOf(string.toLowerCase()) != -1;
     }
     
     @Override
