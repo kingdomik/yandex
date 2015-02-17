@@ -10,7 +10,7 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.Image;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 
-public class BriefForecastBlock extends SearchPage {
+public class BriefForecastBlock extends ForecastPage {
 	
 	public static class DayOfWeekForecats extends HtmlElement {
 		

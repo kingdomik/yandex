@@ -26,7 +26,7 @@ public enum Month {
 		return LocalizedText.valueOf("SHORT_" + name()).getValue();
 	}
 	
-	public static Month get(int index) {
+	public static Month getById(int index) {
 		Validate.biggerOrEqual(index, 1, "month index");
 		Validate.smallerOrEqual(index, 12, "month index");
 		return values()[index - 1];

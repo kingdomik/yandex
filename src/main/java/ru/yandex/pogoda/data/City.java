@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.ZoneId;
+import java.util.Properties;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -16,6 +17,7 @@ import javax.xml.bind.Unmarshaller;
 
 import ru.yandex.common.FrameworkException;
 import ru.yandex.common.Utils;
+import ru.yandex.pogoda.wi.CityForecastPage;
 import ru.yandex.pogoda.wi.lang.Language;
 import ru.yandex.pogoda.wi.lang.LocalizedText;
 import ru.yandex.pogoda.ws.Forecast;
@@ -87,10 +89,10 @@ public enum City {
 	public Forecast getForecast() {
 		if (data == null) {
 			String url = String.format("http://export.yandex.ru/weather-ng/forecasts/%d.xml", getId());
-//		      Properties systemSettings = System.getProperties();
-//		      systemSettings.put("proxySet", "true");
-//		      systemSettings.put("http.proxyHost", "www-proxy.us.oracle.com");
-//		      systemSettings.put("http.proxyPort", "80");
+		      Properties systemSettings = System.getProperties();
+		      systemSettings.put("proxySet", "true");
+		      systemSettings.put("http.proxyHost", "www-proxy.us.oracle.com");
+		      systemSettings.put("http.proxyPort", "80");
 			try (InputStream is = new URL(url).openStream()) {
 				JAXBContext jaxbContext = JAXBContext.newInstance(Forecast.class);
 				Unmarshaller unMarshaller = jaxbContext.createUnmarshaller();
@@ -107,7 +109,7 @@ public enum City {
 	}
 	
 	public URL getUrl() {
-		return Utils.getUrl("https://pogoda.yandex.ru/" + name().toLowerCase().replace('_', '-'));
+		return Utils.getUrl(CityForecastPage.URL + "/" + name().toLowerCase().replace('_', '-'));
 	}
 
 }

@@ -1,13 +1,12 @@
 package ru.yandex.common.wi;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
+import java.net.URL;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import ru.yandex.account.wi.LanguagePage;
-import ru.yandex.pogoda.wi.ForecastPage;
+import ru.yandex.pogoda.wi.CityForecastPage;
 import ru.yandex.pogoda.wi.lang.Language;
 import ru.yandex.pogoda.wi.lang.LocalizedTextManager;
 
@@ -22,27 +21,34 @@ public class Browser {
 	public void close() {
 		driver.quit();		
 	}
+
+	public CityForecastPage goForecast(URL url) {
+		return goForecast(url.toString());
+	}
 	
-	public ForecastPage goForecast(String url) {
+	public CityForecastPage goForecast(String url) {
 		driver.get(url);
 		return getForecastPage();
 	}
 	
-	public ForecastPage getForecastPage() {
-		return new ForecastPage(driver);
+	public CityForecastPage getForecastPage() {
+		return new CityForecastPage(driver);
 	}
 	
 	public LanguagePage goLanguage() {
+		driver.get(LanguagePage.URL);
 		return new LanguagePage(driver);
 	}
 
 	public void setLanguage(Language lang) {
-		ForecastPage page = goForecast("http://pogoda.yandex.ru");
+		CityForecastPage page;
+		if (!driver.getCurrentUrl().startsWith(CityForecastPage.URL)) {
+			page = goForecast(CityForecastPage.URL);
+		} else {
+			page = getForecastPage();
+		}
 		if (!lang.equals(page.getLanguage())) {
-			driver.get("http://tune.yandex.ru/lang");
 			goLanguage().setLanguage(lang);
-			page = goForecast("http://pogoda.yandex.ru");
-			assertThat("Page language", page.getLanguage(), equalTo(lang));
 			LocalizedTextManager.setLanguage(lang.name());
 		}
 	}

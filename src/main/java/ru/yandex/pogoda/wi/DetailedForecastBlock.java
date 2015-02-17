@@ -10,7 +10,7 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.Image;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 
-public class DetailedForecastBlock extends SearchPage {
+public class DetailedForecastBlock extends ForecastPage {
 
 	public static class DateDayBlock extends HtmlElement {
 		
@@ -60,7 +60,7 @@ public class DetailedForecastBlock extends SearchPage {
 		
 		@Name("Иконка погоды")
 		@FindBy(tagName="i")
-		public Image imgCondition;
+		public Image imgWeather;
 		
 		@Name("Cостояние погоды")
 		@FindBy(className="table__body-cell_type_condition")

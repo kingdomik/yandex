@@ -10,6 +10,8 @@ import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.Select;
 
 public class LanguagePage extends Page {
+	
+	public static final String URL = "http://tune.yandex.ru/lang";
 
 	@Name("Язык")
 	@FindBy(name = "intl")

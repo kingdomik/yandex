@@ -48,7 +48,8 @@ public class Utils {
 	}
 
 	public static String formatFloat(float value, String format) {
-		return new DecimalFormat(format).format(value);
+		// FIXME Use page locale
+		return new DecimalFormat(format).format(value).replace('.', ',');
 	}
 
 	public static String temperature(String text) {

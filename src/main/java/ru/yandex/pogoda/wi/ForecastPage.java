@@ -1,126 +1,58 @@
 package ru.yandex.pogoda.wi;
 
-import java.util.List;
-
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 
+import ru.yandex.common.wi.Page;
+import ru.yandex.pogoda.wi.lang.Language;
+import ru.yandex.pogoda.wi.lang.LocalizedTextManager;
 import ru.yandex.qatools.htmlelements.annotations.Name;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
-import ru.yandex.qatools.htmlelements.element.Image;
-import ru.yandex.qatools.htmlelements.element.Link;
-import ru.yandex.qatools.htmlelements.element.TextBlock;
+import ru.yandex.qatools.htmlelements.element.TextInput;
 
-public class ForecastPage extends SearchPage {
-
-	public static final int DAYS_COUNT = 10;
-
-	public static final int TODAYA_TOMMOW_SWITCH = 9;
+/**
+ * SearchPage describes common
+ * @author dkishenk
+ *
+ */
+public class ForecastPage extends Page {
 	
-	public class AfterBlock extends HtmlElement {
-		
-		@Name("Часть дня")
-		@FindBy(className = "current-weather__thermometer-name")
-		public TextBlock txtName;
-		
-		@Name("Мконка состояния погоды")
-		@FindBy(tagName = "i")
-		public TextBlock imgCondition;
-		
-		@Name("Температура")
-		@FindBy(className = "current-weather__thermometer_type_after")
-		public TextBlock txtTemperature;		
-		
-	}
+	public static final String URL = "https://pogoda.yandex.ru";
 	
-	@Name("Город")
-	@FindBy(css = ".navigation-city h1")
-	public TextBlock txtLocation;
+	@FindBy(tagName = "html")
+	private HtmlElement elmHtml;
 	
-	@Name("Текущее время")
-	@FindBy(css = ".current-weather__today span")
-	@CacheLookup
-	public TextBlock txtLocalTime;
-
-	@Name("Текущая температура")
-	@FindBy(className = "current-weather__thermometer_type_now")
-	public TextBlock txtTemperature;
-
-	@Name("Вчерашняя температура")
-	@FindBy(className = "current-weather__yesterday")
-	public TextBlock txtYesterdayTemperature;
-
-	@Name("Иконка текущей погоды")
-	@FindBy(css = ".current-weather__col_type_now i")
-	public Image imgWaether;
-
-	@Name("Текущеая погода")
-	@FindBy(className = "current-weather__comment")
-	public TextBlock txtWaether;
-
-	@Name("Дальнейшая погода")
-	@FindBy(className = "current-weather__col_type_after")
-	public List<AfterBlock> lstAfter;
+	@Name("Запрос")
+	@FindBy(name = "request")
+	public TextInput inpRequest;
 	
-	@Name("Восход/Закат")
-	@FindBy(className = "current-weather__info-row")
-	public TextBlock txtSunriseSunset;
-
-	@Name("Ветер")
-	@FindBy(className = "current-weather__info-row_type_wind")
-	public TextBlock txtWind;
-
-	@Name("Направление ветера")
-	@FindBy(css = ".current-weather__info-row_type_wind i")
-	public Image imgWindDirection;
+	@Name("Найти")
+	@FindBy(css = "button[type=submit]")
+	public Button btnSubmit;
 	
-	@Name("Влажность")
-	@FindBy(css = ".current-weather__info-row:nth-child(3)")
-	public TextBlock txtHumidity;
-	
-	@Name("Давление")
-	@FindBy(css = ".current-weather__info-row:nth-child(4)")
-	public TextBlock txtPressure;
-	
-	@Name("Актуальность данных")
-	@FindBy(css = ".current-weather__info-row:nth-child(5)")
-	public TextBlock txtObservationTime;
-	
-	@Name("Температцра воды")
-	@FindBy(className = "current-weather__water")
-	public Button txtWaterTemperature;
-
-	@FindBy(css = "[role=tab]:nth-child(1)")
-	public Link tabBrief;
-	
-	@FindBy(css = "[role=tab]:nth-child(2)")
-	public Link tabDetailed;
-	
-	@FindBy(css = "[role=tab]:nth-child(3)")
-	public Link tabClimate;
-
-	@FindBy(css = ".navigation-city__info button")
-	public Button btnOthwerCity;
-
-	public ForecastPage(WebDriver driver) {
+	ForecastPage(WebDriver driver) {
 		super(driver);
 	}
 	
-	public BriefForecastBlock goBriefForecastBlock() {
-		tabBrief.click();
-		return new BriefForecastBlock(getDriver());
+	public CityForecastPage goForecast(String text) {
+		inpRequest.sendKeys(text);
+		btnSubmit.click();
+		return new CityForecastPage(getDriver());
+	}
+
+	public SearchResultsPage search(String text) {
+		inpRequest.sendKeys(text);
+		btnSubmit.click();
+		return new SearchResultsPage(getDriver());
+	}
+
+	public void detectLanguage() {
+		LocalizedTextManager.setLanguage(getLanguage().name().toLowerCase());
 	}
 	
-	public DetailedForecastBlock goDetailedForecastBlock() {
-		tabDetailed.click();
-		return new DetailedForecastBlock(getDriver());
-	}
-	
-	public ClimateForecastBlock goClimateForecastBlock() {
-		tabClimate.click();
-		return new ClimateForecastBlock(getDriver());
+	public Language getLanguage() {
+		return Language.get(elmHtml.getAttribute("lang"));
 	}
 	
 }

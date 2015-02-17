@@ -10,7 +10,7 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.Link;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 
-public class SearchResultsPage extends SearchPage {
+public class SearchResultsPage extends ForecastPage {
 
 	public static final int DAYS_COUNT = 10;
 
