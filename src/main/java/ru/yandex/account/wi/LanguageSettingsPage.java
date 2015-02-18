@@ -13,7 +13,7 @@ import ru.yandex.qatools.htmlelements.element.Select;
  * Wraps language settings page
  *
  */
-public class LanguagePage extends Page {
+public class LanguageSettingsPage extends Page {
 	
 	
 	/**
@@ -25,11 +25,11 @@ public class LanguagePage extends Page {
 	@FindBy(name = "intl")
 	private Select selLanguage;
 		
-	@Name("Результаты")
+	@Name("Сохранить")
 	@FindBy(css = "input[type=submit]")
 	private Button btnSubmit;
 			
-	public LanguagePage(WebDriver driver) {
+	public LanguageSettingsPage(WebDriver driver) {
 		super(driver);
 	}
 	

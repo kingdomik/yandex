@@ -5,7 +5,8 @@ import java.net.URL;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-import ru.yandex.account.wi.LanguagePage;
+import ru.yandex.account.wi.LanguageSettingsPage;
+import ru.yandex.account.wi.RegionSettingsPage;
 import ru.yandex.pogoda.wi.CityForecastPage;
 import ru.yandex.pogoda.wi.lang.Language;
 import ru.yandex.pogoda.wi.lang.LocalizedTextManager;
@@ -16,13 +17,13 @@ import ru.yandex.pogoda.wi.lang.LocalizedTextManager;
  */
 public class Browser {
 	
-	private WebDriver driver = new FirefoxDriver(); 
+	private WebDriver driver; 
 	
 	/**
 	 * Create browser
 	 */
 	public Browser() {
-		
+		driver = new FirefoxDriver();
 	}
 	
 	/**
@@ -61,12 +62,21 @@ public class Browser {
 	}
 	
 	/**
+	 * Go to region settings page
+	 * @return region settings page wrapper
+	 */
+	public RegionSettingsPage goRegionSettingsPage() {
+		driver.get(RegionSettingsPage.URL);
+		return new RegionSettingsPage(driver);
+	}
+	
+	/**
 	 * Go to language settings page
 	 * @return language settings page wrapper
 	 */
-	public LanguagePage goLanguage() {
-		driver.get(LanguagePage.URL);
-		return new LanguagePage(driver);
+	public LanguageSettingsPage goLanguageSettingsPage() {
+		driver.get(LanguageSettingsPage.URL);
+		return new LanguageSettingsPage(driver);
 	}
 
 	/**
@@ -81,7 +91,7 @@ public class Browser {
 			page = getForecastPage();
 		}
 		if (!lang.equals(page.getLanguage())) {
-			goLanguage().setLanguage(lang);
+			goLanguageSettingsPage().setLanguage(lang);
 			LocalizedTextManager.setLanguage(lang.name());
 		}
 	}
