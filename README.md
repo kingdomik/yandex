@@ -7,6 +7,7 @@ Requirements
 Run tests
 ---------
 From root folder run Ant
+```
 $ ant
 Buildfile: /home/dkishenk/workspace/yandex/build.xml
 clean:
@@ -27,7 +28,7 @@ test:
 all:
 BUILD SUCCESSFUL
 Total time: 5 minutes 20 seconds
-
+```
  
 Reports
 -------
@@ -36,6 +37,7 @@ HTML JUnit report will be generated automatically to folder "reports"
 
 Structure
 ---------
+```
 .settings 					- Eclipse settings (optional)
 bin 						- folder with compiled project classes
 lib 						- libraries required to compile project
@@ -56,3 +58,4 @@ src/main/java/
 src/test/java 				- test sources
 .classpath 					- Eclipse project staff
 .project 					- Eclipse project staff 
+```
