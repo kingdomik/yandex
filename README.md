@@ -6,7 +6,7 @@ Requirements
 
 Run tests
 ---------
-From root folder run Ant
+Checkout tests and run Ant from root folder 
 ```
 $ ant
 Buildfile: /home/dkishenk/workspace/yandex/build.xml
