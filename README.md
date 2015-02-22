@@ -38,7 +38,6 @@ HTML JUnit report will be generated automatically to folder "reports"
 Structure
 ---------
 ```
-.settings 					- Eclipse settings (optional)
 bin 						- folder with compiled project classes
 lib 						- libraries required to compile project
 reports 					- output folder for HTML JUnt report
