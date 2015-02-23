@@ -21,7 +21,7 @@ public class HasClassMatcher extends TypeSafeMatcher<WebElement> {
     }
 
     public void describeTo(Description description) {
-        description.appendText("element has ").
+        description.appendText("element has class ").
                 appendValue(className);
     }
 
