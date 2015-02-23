@@ -13,10 +13,10 @@ $ mvn clean test
 Reports
 -------
 To get HTML test report run
-'''
+```
 $ mvn clean test site
-'''
-Report can be found in target/site/project-reports.html 
+```
+Report will be available here target/site/project-reports.html 
 
 
 Structure
